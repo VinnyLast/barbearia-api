@@ -31,9 +31,9 @@ const combos = [
 ];
 
 const produtos = [
-  { nome: "Pomada", preco: 25 },
-  { nome: "Shampoo", preco: 30 },
-  { nome: "Óleo para barba", preco: 20 }
+  { nome: "Pomada", preco: 25, img: "images/pomada.png" },
+  { nome: "Shampoo", preco: 30, img: "images/shampoo.png" },
+  { nome: "Óleo para barba", preco: 20, img: "images/oleo.gif" }
 ];
 
 const horarios = [
@@ -70,9 +70,6 @@ function acessarPainel() {
   const senha = prompt("Digite a senha do painel:");
 
   if (senha === senhaAdmin) {
-    const btn = document.getElementById("btnPainel");
-    if (btn) btn.style.display = "block";
-
     trocarAba("painel");
     carregarAgendamentos();
   } else {
@@ -106,19 +103,27 @@ combos.forEach(c => {
   selectCombo.innerHTML += `<option value="${c.nome}">${c.nome} - R$ ${c.preco}</option>`;
 });
 
-// ================= PRODUTOS =================
+// ================= PRODUTOS (CORRIGIDO) =================
 listaProdutos.innerHTML = "";
 
 produtos.forEach(p => {
-  listaProdutos.innerHTML += `
-    <li onclick="comprarProduto('${p.nome}', ${p.preco})">
+  const li = document.createElement("li");
+
+  li.innerHTML = `
+    <div class="produto-info">
+      <img src="${p.img}" class="produto-img">
       <div>
-        <strong>${p.nome}</strong>
+        <span>${p.nome}</span><br>
         <small>Produto profissional</small>
       </div>
-      <div class="preco">R$ ${p.preco}</div>
-    </li>
+    </div>
+
+    <div class="preco">R$ ${p.preco}</div>
   `;
+
+  li.onclick = () => comprarProduto(p.nome, p.preco);
+
+  listaProdutos.appendChild(li);
 });
 
 function comprarProduto(nome, preco) {
@@ -218,9 +223,7 @@ Nome: ${agendamento.nome}
 Telefone: ${agendamento.telefone}`;
 
   const numero = "5575988434344";
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-
-  window.open(url, "_blank");
+  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`);
 
   alert("Agendamento realizado com sucesso!");
 
@@ -247,6 +250,16 @@ async function carregarAgendamentos() {
     `;
   });
 }
+
+async function deletar(id) {
+  await fetch(`https://barbearia-api-23on.onrender.com/agendamentos/${id}`, {
+    method: "DELETE"
+  });
+
+  carregarAgendamentos();
+}
+
+// ================= LOADING =================
 window.addEventListener("load", () => {
   const loading = document.getElementById("loading");
 
@@ -259,10 +272,3 @@ window.addEventListener("load", () => {
     }, 400);
   }, 800);
 });
-async function deletar(id) {
-  await fetch(`https://barbearia-api-23on.onrender.com/agendamentos/${id}`, {
-    method: "DELETE"
-  });
-
-  carregarAgendamentos();
-}
