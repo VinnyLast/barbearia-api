@@ -247,7 +247,18 @@ async function carregarAgendamentos() {
     `;
   });
 }
+window.addEventListener("load", () => {
+  const loading = document.getElementById("loading");
 
+  setTimeout(() => {
+    loading.style.opacity = "0";
+    loading.style.transition = "0.4s";
+
+    setTimeout(() => {
+      loading.style.display = "none";
+    }, 400);
+  }, 800);
+});
 async function deletar(id) {
   await fetch(`https://barbearia-api-23on.onrender.com/agendamentos/${id}`, {
     method: "DELETE"
