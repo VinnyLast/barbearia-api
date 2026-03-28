@@ -223,7 +223,9 @@ Nome: ${agendamento.nome}
 Telefone: ${agendamento.telefone}`;
 
   const numero = "5575988434344";
-  window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`);
+  const urlWhatsapp = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+  window.location.href = urlWhatsapp;
 
   alert("Agendamento realizado com sucesso!");
 
