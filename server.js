@@ -10,8 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 // ================= CONEXÃO MYSQL =================
-const mysql = require('mysql2');
-
+// ================= CONEXÃO MYSQL =================
 const db = mysql.createPool({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -23,11 +22,13 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-db.connect(err => {
+// teste de conexão
+db.getConnection((err, conn) => {
   if (err) {
-    console.error("❌ Erro ao conectar no MySQL:", err);
+    console.error("❌ Erro no MySQL:", err);
   } else {
-    console.log("✅ MySQL conectado");
+    console.log("✅ MySQL conectado!");
+    conn.release();
   }
 });
 
@@ -121,4 +122,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("🚀 Servidor rodando");
 });
-app.use(cors());
