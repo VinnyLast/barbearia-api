@@ -160,7 +160,7 @@ async function atualizarHorarios() {
   selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
 
   try {
-    const res = await fetch(`http://localhost:3000/horarios?data=${dataSelecionada}&barbeiro=${barbeiroSelecionado}`);
+    const res = await fetch(`https://barbearia-api-23on.onrender.com/horarios?data=${dataSelecionada}&barbeiro=${barbeiroSelecionado}`);
     const ocupados = await res.json();
 
     horarios.forEach(h => {
@@ -199,7 +199,7 @@ document.getElementById("formAgendamento").addEventListener("submit", async (e) 
     telefone: document.getElementById("telefone").value
   };
 
-  await fetch("http://localhost:3000/agendar", {
+  await fetch("https://barbearia-api-23on.onrender.com/agendar", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -231,7 +231,7 @@ Telefone: ${agendamento.telefone}`;
 
 // ================= PAINEL =================
 async function carregarAgendamentos() {
-  const res = await fetch("http://localhost:3000/agendamentos");
+  const res = await fetch("https://barbearia-api-23on.onrender.com/agendamentos");
   const dados = await res.json();
 
   listaAdmin.innerHTML = "";
@@ -249,7 +249,7 @@ async function carregarAgendamentos() {
 }
 
 async function deletar(id) {
-  await fetch(`http://localhost:3000/agendamentos/${id}`, {
+  await fetch(`https://barbearia-api-23on.onrender.com/agendamentos/${id}`, {
     method: "DELETE"
   });
 
