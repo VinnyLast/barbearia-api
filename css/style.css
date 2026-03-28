@@ -62,12 +62,16 @@ header p {
   font-size: 13px;
   transition: 0.2s;
 }
-
+.tabs {
+  background: #111;
+  padding: 5px;
+  border-radius: 14px;
+}
 .tabs button.active {
   background: #00ff88;
   color: black;
+  box-shadow: 0 0 10px rgba(0,255,136,0.4);
 }
-
 /* ABAS */
 .aba {
   display: none;
@@ -85,12 +89,14 @@ header p {
 
 /* CARD */
 .card {
-  background: linear-gradient(145deg, #1a1a1a, #111);
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(10px);
   padding: 18px;
   border-radius: 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
   box-shadow: 0 10px 25px rgba(0,0,0,0.6);
 }
 
@@ -103,11 +109,15 @@ label {
 select, input {
   padding: 12px;
   border-radius: 12px;
-  border: none;
+  border: 1px solid transparent;
   background: #2a2a2a;
   color: white;
   font-size: 14px;
-  transition: 0.2s;
+  transition: all 0.2s;
+}
+
+select:hover, input:hover {
+  border-color: #00ff8844;
 }
 
 select:focus, input:focus {
@@ -141,12 +151,13 @@ button {
   font-weight: bold;
   font-size: 15px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
   box-shadow: 0 5px 15px rgba(0,255,136,0.2);
 }
 
-button:active {
-  transform: scale(0.97);
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,255,136,0.3);
 }
 
 /* ================= PRODUTOS (DESTAQUE PRINCIPAL) ================= */
@@ -250,7 +261,12 @@ button:active {
   text-decoration: none;
   font-weight: bold;
 }
-
+.logo-img {
+  filter: drop-shadow(0 0 10px rgba(0,255,136,0.5));
+}
+* {
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
 /* RESPONSIVO */
 @media (max-width: 420px) {
   .app {
