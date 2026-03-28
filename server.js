@@ -122,3 +122,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("🚀 Servidor rodando");
 });
+console.log("HOST:", process.env.MYSQLHOST);
+console.log("USER:", process.env.MYSQLUSER);
+console.log("PASS:", process.env.MYSQLPASSWORD ? "TEM SENHA" : "SEM SENHA");
+console.log("DB:", process.env.MYSQLDATABASE);
+console.log("PORT:", process.env.MYSQLPORT);
