@@ -1,4 +1,6 @@
 // ================= DADOS =================
+const API_URL = "https://barbearia-api-23on.onrender.com";
+
 const barbeiros = [
   { nome: "Junior Ferreira" },
   { nome: "Diego Alves" },
@@ -37,27 +39,31 @@ const produtos = [
 ];
 
 const horarios = [
-  "08:00","08:30","09:00","09:30","10:00","10:30",
-  "14:00","14:30","15:00","15:30","16:00","16:30","17:00"
+  "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
+  "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"
 ];
 
 // ================= ELEMENTOS =================
+const formAgendamento = document.getElementById("formAgendamento");
 const selectBarbeiro = document.getElementById("barbeiro");
 const selectServico = document.getElementById("servico");
 const selectCombo = document.getElementById("combo");
 const selectHora = document.getElementById("hora");
-const valor = document.getElementById("valor");
 const inputData = document.getElementById("data");
+const inputNome = document.getElementById("nome");
+const inputTelefone = document.getElementById("telefone");
+const valor = document.getElementById("valor");
 const listaProdutos = document.getElementById("listaProdutos");
 const listaAdmin = document.getElementById("listaAdmin");
+const loading = document.getElementById("loading");
 
 // ================= CONFIG =================
 inputData.min = new Date().toISOString().split("T")[0];
 
 // ================= ABAS =================
 function trocarAba(nome, el) {
-  document.querySelectorAll(".aba").forEach(e => e.classList.remove("ativa"));
-  document.querySelectorAll(".tabs button").forEach(e => e.classList.remove("active"));
+  document.querySelectorAll(".aba").forEach((aba) => aba.classList.remove("ativa"));
+  document.querySelectorAll(".tabs button").forEach((btn) => btn.classList.remove("active"));
 
   document.getElementById(nome).classList.add("ativa");
   if (el) el.classList.add("active");
@@ -78,51 +84,88 @@ function acessarPainel() {
 }
 
 let cliques = 0;
+const header = document.querySelector("header");
 
-document.querySelector("header").addEventListener("click", () => {
-  cliques++;
+if (header) {
+  header.addEventListener("click", () => {
+    cliques++;
 
-  if (cliques === 5) {
-    acessarPainel();
-    cliques = 0;
+    if (cliques === 5) {
+      acessarPainel();
+      cliques = 0;
+    }
+
+    setTimeout(() => {
+      cliques = 0;
+    }, 2000);
+  });
+}
+
+// ================= HELPERS =================
+function ehDomingo(data) {
+  const [ano, mes, dia] = data.split("-").map(Number);
+  const dataLocal = new Date(ano, mes - 1, dia);
+  return dataLocal.getDay() === 0;
+}
+
+function horarioJaPassou(dataSelecionada, horario) {
+  const agora = new Date();
+
+  const [ano, mes, dia] = dataSelecionada.split("-").map(Number);
+  const [hora, minuto] = horario.split(":").map(Number);
+
+  const dataHoraHorario = new Date(ano, mes - 1, dia, hora, minuto);
+
+  return dataHoraHorario <= agora;
+}
+
+function formatarTelefone(valor) {
+  let telefone = valor.replace(/\D/g, "").slice(0, 11);
+
+  if (telefone.length > 10) {
+    telefone = telefone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+  } else if (telefone.length > 6) {
+    telefone = telefone.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
+  } else if (telefone.length > 2) {
+    telefone = telefone.replace(/(\d{2})(\d+)/, "($1) $2");
+  } else if (telefone.length > 0) {
+    telefone = telefone.replace(/(\d*)/, "($1");
   }
 
-  setTimeout(() => (cliques = 0), 2000);
-});
+  return telefone;
+}
 
 // ================= SELECTS =================
-barbeiros.forEach(b => {
+barbeiros.forEach((b) => {
   selectBarbeiro.innerHTML += `<option value="${b.nome}">${b.nome}</option>`;
 });
 
-servicos.forEach(s => {
+servicos.forEach((s) => {
   selectServico.innerHTML += `<option value="${s.nome}">${s.nome} - R$ ${s.preco}</option>`;
 });
 
-combos.forEach(c => {
+combos.forEach((c) => {
   selectCombo.innerHTML += `<option value="${c.nome}">${c.nome} - R$ ${c.preco}</option>`;
 });
 
-// ================= PRODUTOS (CORRIGIDO) =================
+// ================= PRODUTOS =================
 listaProdutos.innerHTML = "";
 
-produtos.forEach(p => {
+produtos.forEach((p) => {
   const li = document.createElement("li");
 
   li.innerHTML = `
     <div class="produto-info">
-      <img src="${p.img}" class="produto-img">
+      <img src="${p.img}" class="produto-img" alt="${p.nome}">
       <div>
         <span>${p.nome}</span><br>
         <small>Produto profissional</small>
       </div>
     </div>
-
     <div class="preco">R$ ${p.preco}</div>
   `;
 
-  li.onclick = () => comprarProduto(p.nome, p.preco);
-
+  li.addEventListener("click", () => comprarProduto(p.nome, p.preco));
   listaProdutos.appendChild(li);
 });
 
@@ -139,19 +182,19 @@ Pode separar pra mim?`;
   const numero = "5575988434344";
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
 
-  window.open(url, "_blank");
+  window.location.href = url;
 }
 
 // ================= SERVIÇO / COMBO =================
 selectServico.addEventListener("change", () => {
   selectCombo.value = "";
-  const servico = servicos.find(s => s.nome === selectServico.value);
+  const servico = servicos.find((s) => s.nome === selectServico.value);
   valor.textContent = servico ? `Valor: R$ ${servico.preco}` : "";
 });
 
 selectCombo.addEventListener("change", () => {
   selectServico.value = "";
-  const combo = combos.find(c => c.nome === selectCombo.value);
+  const combo = combos.find((c) => c.nome === selectCombo.value);
   valor.textContent = combo ? `Valor: R$ ${combo.preco}` : "";
 });
 
@@ -162,57 +205,146 @@ async function atualizarHorarios() {
 
   if (!dataSelecionada || !barbeiroSelecionado) return;
 
+  if (ehDomingo(dataSelecionada)) {
+    alert("Não atendemos aos domingos.");
+    inputData.value = "";
+    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+    return;
+  }
+
   selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
 
   try {
-    const res = await fetch(`https://barbearia-api-23on.onrender.com/horarios?data=${dataSelecionada}&barbeiro=${barbeiroSelecionado}`);
-    const ocupados = await res.json();
+    const res = await fetch(
+      `${API_URL}/horarios?data=${dataSelecionada}&barbeiro=${encodeURIComponent(barbeiroSelecionado)}`
+    );
 
-    horarios.forEach(h => {
-      const ocupado = ocupados.some(o => o.hora.slice(0,5) === h);
+    if (!res.ok) {
+      throw new Error("Erro ao carregar horários.");
+    }
+
+    const ocupados = await res.json();
+    const hojeFormatado = new Date().toISOString().split("T")[0];
+
+    horarios.forEach((h) => {
+      const ocupado = ocupados.some((o) => o.hora && o.hora.slice(0, 5) === h);
+
+      if (dataSelecionada === hojeFormatado && horarioJaPassou(dataSelecionada, h)) {
+        return;
+      }
 
       if (!ocupado) {
         selectHora.innerHTML += `<option value="${h}">${h}</option>`;
       }
     });
-
   } catch (err) {
     console.error("Erro ao buscar horários:", err);
+    alert("Não foi possível carregar os horários.");
   }
 }
 
-inputData.addEventListener("change", atualizarHorarios);
+inputData.addEventListener("change", () => {
+  const dataSelecionada = inputData.value;
+
+  if (!dataSelecionada) return;
+
+  if (ehDomingo(dataSelecionada)) {
+    alert("Não atendemos aos domingos.");
+    inputData.value = "";
+    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+    return;
+  }
+
+  atualizarHorarios();
+});
+
 selectBarbeiro.addEventListener("change", atualizarHorarios);
 
+// ================= TELEFONE =================
+inputTelefone.addEventListener("input", (e) => {
+  e.target.value = formatarTelefone(e.target.value);
+});
+
 // ================= AGENDAR =================
-document.getElementById("formAgendamento").addEventListener("submit", async (e) => {
+formAgendamento.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const telefoneFormatado = inputTelefone.value;
+  const telefoneLimpo = telefoneFormatado.replace(/\D/g, "");
   const selecionado = selectServico.value || selectCombo.value;
+  const dataSelecionada = inputData.value;
+  const horaSelecionada = selectHora.value;
+
+  if (!selectBarbeiro.value) {
+    alert("Escolha um barbeiro!");
+    return;
+  }
 
   if (!selecionado) {
     alert("Escolha um serviço ou combo!");
     return;
   }
 
+  if (!dataSelecionada) {
+    alert("Escolha uma data!");
+    return;
+  }
+
+  if (ehDomingo(dataSelecionada)) {
+    alert("Não atendemos aos domingos.");
+    return;
+  }
+
+  if (!horaSelecionada) {
+    alert("Escolha um horário!");
+    return;
+  }
+
+  if (horarioJaPassou(dataSelecionada, horaSelecionada)) {
+    const hojeFormatado = new Date().toISOString().split("T")[0];
+    if (dataSelecionada === hojeFormatado) {
+      alert("Esse horário já passou. Escolha outro.");
+      atualizarHorarios();
+      return;
+    }
+  }
+
+  if (inputNome.value.trim().length < 2) {
+    alert("Digite um nome válido!");
+    return;
+  }
+
+  if (telefoneFormatado.length < 15 || telefoneLimpo.length !== 11) {
+    alert("Digite um telefone válido!");
+    return;
+  }
+
   const agendamento = {
     barbeiro: selectBarbeiro.value,
     servico: selecionado,
-    data: inputData.value,
-    hora: selectHora.value,
-    nome: document.getElementById("nome").value,
-    telefone: document.getElementById("telefone").value
+    data: dataSelecionada,
+    hora: horaSelecionada,
+    nome: inputNome.value.trim(),
+    telefone: telefoneFormatado
   };
 
-  await fetch("https://barbearia-api-23on.onrender.com/agendar", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(agendamento)
-  });
+  try {
+    const res = await fetch(`${API_URL}/agendar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(agendamento)
+    });
 
-  const mensagem = `Olá, gostaria de agendar na JR Barbearia:
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.erro || "Erro ao agendar.");
+      return;
+    }
+
+    const mensagem = `Olá, gostaria de agendar na JR Barbearia:
 
 Barbeiro: ${agendamento.barbeiro}
 Serviço: ${agendamento.servico}
@@ -222,48 +354,72 @@ Horário: ${agendamento.hora}
 Nome: ${agendamento.nome}
 Telefone: ${agendamento.telefone}`;
 
-  const numero = "5575988434344";
-  const urlWhatsapp = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+    const numero = "5575988434344";
+    const mensagemCodificada = encodeURIComponent(mensagem);
+    const urlApp = `whatsapp://send?phone=${numero}&text=${mensagemCodificada}`;
+    const urlWeb = `https://wa.me/${numero}?text=${mensagemCodificada}`;
 
-  window.location.href = urlWhatsapp;
+    alert("Agendamento realizado com sucesso!");
 
-  alert("Agendamento realizado com sucesso!");
+    formAgendamento.reset();
+    valor.textContent = "";
+    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
 
-  e.target.reset();
-  valor.textContent = "";
-  selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+    window.location.href = urlApp;
+
+    setTimeout(() => {
+      window.location.href = urlWeb;
+    }, 1200);
+  } catch (err) {
+    console.error("Erro ao agendar:", err);
+    alert("Não foi possível concluir o agendamento.");
+  }
 });
 
 // ================= PAINEL =================
 async function carregarAgendamentos() {
-  const res = await fetch("https://barbearia-api-23on.onrender.com/agendamentos");
-  const dados = await res.json();
+  try {
+    const res = await fetch(`${API_URL}/agendamentos`);
 
-  listaAdmin.innerHTML = "";
+    if (!res.ok) {
+      throw new Error("Erro ao carregar agendamentos.");
+    }
 
-  dados.forEach(a => {
-    listaAdmin.innerHTML += `
-      <li>
-        <strong>${a.nome}</strong> - ${a.servico}<br>
-        ${a.data} às ${a.hora.slice(0,5)}<br>
-        Barbeiro: ${a.barbeiro}<br>
-        <button onclick="deletar(${a.id})">Excluir</button>
-      </li>
-    `;
-  });
+    const dados = await res.json();
+    listaAdmin.innerHTML = "";
+
+    dados.forEach((a) => {
+      listaAdmin.innerHTML += `
+        <li>
+          <strong>${a.nome}</strong> - ${a.servico}<br>
+          ${a.data} às ${a.hora.slice(0, 5)}<br>
+          Barbeiro: ${a.barbeiro}<br>
+          <button onclick="deletar(${a.id})">Excluir</button>
+        </li>
+      `;
+    });
+  } catch (err) {
+    console.error("Erro ao carregar agendamentos:", err);
+    listaAdmin.innerHTML = `<li>Erro ao carregar agendamentos.</li>`;
+  }
 }
 
 async function deletar(id) {
-  await fetch(`https://barbearia-api-23on.onrender.com/agendamentos/${id}`, {
-    method: "DELETE"
-  });
+  try {
+    await fetch(`${API_URL}/agendamentos/${id}`, {
+      method: "DELETE"
+    });
 
-  carregarAgendamentos();
+    carregarAgendamentos();
+  } catch (err) {
+    console.error("Erro ao deletar:", err);
+    alert("Não foi possível excluir o agendamento.");
+  }
 }
 
 // ================= LOADING =================
 window.addEventListener("load", () => {
-  const loading = document.getElementById("loading");
+  if (!loading) return;
 
   setTimeout(() => {
     loading.style.opacity = "0";
