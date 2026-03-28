@@ -11,7 +11,6 @@ app.use(cors());
 
 // ================= CONEXÃO MYSQL =================
 // ================= CONEXÃO MYSQL =================
-const mysql = require("mysql2");
 
 const url = new URL(process.env.MYSQL_PUBLIC_URL);
 
