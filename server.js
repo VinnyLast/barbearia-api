@@ -11,7 +11,20 @@ app.use(cors());
 
 // ================= CONEXÃO MYSQL =================
 // ================= CONEXÃO MYSQL =================
-const db = mysql.createPool(process.env.MYSQL_PUBLIC_URL);
+const mysql = require("mysql2");
+
+const url = new URL(process.env.MYSQL_PUBLIC_URL);
+
+const db = mysql.createPool({
+  host: url.hostname,
+  user: url.username,
+  password: url.password,
+  database: url.pathname.replace("/", ""),
+  port: url.port,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
 // teste de conexão
 db.getConnection((err, conn) => {
