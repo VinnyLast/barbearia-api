@@ -354,7 +354,7 @@ Horário: ${agendamento.hora}
 Nome: ${agendamento.nome}
 Telefone: ${agendamento.telefone}`;
 
-    const numero = "5575988434344";
+    const numero = "5575981080660";
     const mensagemCodificada = encodeURIComponent(mensagem);
     const urlApp = `whatsapp://send?phone=${numero}&text=${mensagemCodificada}`;
     const urlWeb = `https://wa.me/${numero}?text=${mensagemCodificada}`;
