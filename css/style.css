@@ -13,58 +13,55 @@
   --verde-hover: #2b4d31;
 }
 
-/* BODY COM IMAGEM */
+/* BODY */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: white;
   min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
 
+/* FUNDO ANIMADO REAL */
+body::before {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
   background:
     linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
     url('../images/fundo.png');
-
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
-
-  animation: fundoAnimado 20s ease-in-out infinite;
+  z-index: -2;
+  animation: fundoMove 20s ease-in-out infinite;
+  pointer-events: none;
 }
 
-/* ANIMAÇÃO SUAVE FUNDO */
-@keyframes fundoAnimado {
-  0% { background-position: center; }
-  50% { background-position: top; }
-  100% { background-position: center; }
+@keyframes fundoMove {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.1) translate(-2%, -2%); }
+  100% { transform: scale(1) translate(0, 0); }
 }
 
-/* OVERLAY LEVE (SEM QUEBRAR CLIQUE) */
+/* OVERLAY */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-
-  background: radial-gradient(circle at 20% 20%, rgba(53,94,59,0.10), transparent),
-              radial-gradient(circle at 80% 80%, rgba(53,94,59,0.08), transparent);
-
+  z-index: -1;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(53,94,59,0.10), transparent),
+    radial-gradient(circle at 80% 80%, rgba(53,94,59,0.08), transparent);
   animation: luzFundo 12s infinite alternate;
 }
 
-/* ANIMAÇÃO LUZ */
 @keyframes luzFundo {
   from { opacity: 0.5; }
   to { opacity: 1; }
-}
-
-/* TOPO ESCURO */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 200px;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
-  pointer-events: none;
 }
 
 /* CONTAINER */
@@ -72,6 +69,8 @@ body::before {
   max-width: 420px;
   margin: auto;
   padding: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 /* HEADER */
@@ -80,37 +79,46 @@ header {
   margin-bottom: 20px;
 }
 
-/* 🔥 LOGO REDONDA (SAFE) */
 .logo-img {
   width: 80px;
   height: 80px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 8px;
-
   border: 2px solid var(--verde);
-
-  /* 🔥 deixa a logo mais viva */
   filter: brightness(1.2) contrast(1.1);
-
-  /* glow mais forte */
   box-shadow: 0 0 20px rgba(53,94,59,0.8);
-  
 }
 
-/* TÍTULO */
 header h1 {
   font-size: 20px;
   letter-spacing: 3px;
   font-weight: 600;
-  filter: brightness(1.2) contrast(1.1);
-  
 }
 
 header p {
   font-size: 12px;
   color: #aaa;
-  filter: brightness(1.2) contrast(1.1);
+}
+
+/* REVIEWS */
+.reviews {
+  text-align: center;
+  margin-bottom: 15px;
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.reviews p {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.reviews span {
+  font-size: 12px;
+  color: #b8b8b8;
 }
 
 /* TABS */
@@ -142,7 +150,9 @@ header p {
 }
 
 /* ABAS */
-.aba { display: none; }
+.aba {
+  display: none;
+}
 
 .aba.ativa {
   display: block;
@@ -250,14 +260,6 @@ button:hover {
   box-shadow: 0 5px 20px rgba(53,94,59,0.3);
 }
 
-#listaProdutos li span {
-  font-weight: 500;
-}
-
-#listaProdutos li small {
-  font-size: 11px;
-  color: #777;
-}
 .produto-info {
   display: flex;
   align-items: center;
@@ -269,19 +271,10 @@ button:hover {
   height: 45px;
   object-fit: cover;
   border-radius: 10px;
-
   border: 1px solid #2a2a2a;
-
-  /* efeito premium */
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-/* hover mais bonito */
-#listaProdutos li:hover .produto-img {
-  transform: scale(1.05);
-}
-
-/* PREÇO */
 .preco {
   background: var(--verde);
   color: white;
@@ -291,22 +284,6 @@ button:hover {
   font-size: 13px;
 }
 
-/* PAINEL */
-#listaAgendamentos li {
-  background: #2a2a2a;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  font-size: 13px;
-  border-left: 3px solid var(--verde);
-}
-
-/* AVALIAÇÃO */
-.reviews {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
 /* LOCALIZAÇÃO */
 .localizacao {
   background: linear-gradient(145deg, #1c1c1c, #111);
@@ -314,24 +291,14 @@ button:hover {
   border-radius: 16px;
   margin-bottom: 15px;
   text-align: center;
-  filter: brightness(1.2) contrast(1.1);
   border: 1px solid rgba(255,255,255,0.05);
   box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-
-  animation: fade 0.4s ease;
 }
 
 .localizacao h3 {
   font-size: 15px;
   margin-bottom: 8px;
   color: var(--verde-claro);
-}
-
-.localizacao .endereco {
-  font-size: 13px;
-  color: #ccc;
-  margin-bottom: 10px;
-  line-height: 1.4;
 }
 
 .localizacao a {
@@ -343,14 +310,11 @@ button:hover {
   text-decoration: none;
   font-size: 12px;
   font-weight: bold;
-
-  border: 1px solid rgba(53,94,59,0.3);
 }
 
 .localizacao a:hover {
   background: var(--verde);
   color: white;
-  transform: translateY(-2px);
 }
 
 /* WHATSAPP */
@@ -369,7 +333,7 @@ button:hover {
   font-weight: bold;
 }
 
-/* 🔥 LOADING */
+/* LOADING */
 #loading {
   position: fixed;
   inset: 0;
