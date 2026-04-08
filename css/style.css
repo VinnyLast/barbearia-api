@@ -30,7 +30,7 @@ body::before {
   width: 140%;
   height: 140%;
   background:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
+    linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.5)),
     url('../images/fundo.png');
   background-size: cover;
   background-position: center;
