@@ -5,61 +5,72 @@ const barbeiros = [
   {
     nome: "Junior Ferreira",
     especialidade: "Corte social e degradê",
-    foto: "images/junior.png"
+    foto: "images/junior.png",
   },
   {
     nome: "Diego Alves",
     especialidade: "Barba e acabamento",
-    foto: "images/diego.png"
+    foto: "images/diego.png",
   },
   {
     nome: "Samuel Santos",
     especialidade: "Cortes modernos",
-    foto: "images/samuel.png"
+    foto: "images/samuel.png",
   },
   {
     nome: "Rian Lukas",
     especialidade: "Cortes modernos e freestyle",
-    foto: "images/lukas.png"
+    foto: "images/lukas.png",
   },
   {
     nome: "Douglas",
     especialidade: "Barba e acabamento",
-    foto: "images/douglas.png"
-  }
+    foto: "images/douglas.png",
+  },
 ];
 const servicos = [
-  { nome: "Corte", preco: 25 },
-  { nome: "Barba", preco: 15 },
-  { nome: "Pezinho", preco: 10 },
-  { nome: "Luzes", preco: 60 },
-  { nome: "Platinado", preco: 80 },
-  { nome: "Botox", preco: 50 },
-  { nome: "Barboterapia", preco: 40 },
-  { nome: "Pigmentação", preco: 30 },
-  { nome: "Hidratação", preco: 35 },
-  { nome: "Sobrancelha (máquina e tesoura)", preco: 15 },
-  { nome: "Freestyle", preco: 20 },
-  { nome: "Depilação (orelha e nariz)", preco: 15 },
-  { nome: "Limpeza facial", preco: 25 }
+  { nome: "Corte", preco: 25, duracao: 40 },
+  { nome: "Barba", preco: 15, duracao: 20 },
+  { nome: "Pezinho", preco: 10, duracao: 10 },
+  { nome: "Luzes", preco: 60, duracao: 30 },
+  { nome: "Platinado", preco: 80, duracao: 60 },
+  { nome: "Botox", preco: 50, duracao: 40 },
+  { nome: "Barboterapia", preco: 40, duracao: 30 },
+  { nome: "Pigmentação", preco: 30, duracao: 25 },
+  { nome: "Hidratação", preco: 35, duracao: 30 },
+  { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15 },
+  { nome: "Freestyle", preco: 20, duracao: 20 },
+  { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15 },
+  { nome: "Limpeza facial", preco: 25, duracao: 30 },
 ];
 
 const combos = [
-  { nome: "Corte + Barba", preco: 40 },
-  { nome: "Corte + Luzes", preco: 75 },
-  { nome: "Corte + Platinado", preco: 95 },
-  { nome: "Corte + Sobrancelha", preco: 35 }
+  { nome: "Corte + Barba", preco: 40, duracao: 60 },
+  { nome: "Corte + Luzes", preco: 75, duracao: 70 },
+  { nome: "Corte + Platinado", preco: 95, duracao: 90 },
+  { nome: "Corte + Sobrancelha", preco: 35, duracao: 55 },
 ];
 
 const produtos = [
   { nome: "Pomada", preco: 25, img: "images/pomada.png" },
   { nome: "Shampoo", preco: 30, img: "images/shampoo.png" },
-  { nome: "Óleo para barba", preco: 20, img: "images/oleo.gif" }
+  { nome: "Óleo para barba", preco: 20, img: "images/oleo.gif" },
 ];
 
 const horarios = [
-  "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
-  "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"
+  "08:00",
+  "08:30",
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
 ];
 
 // ================= ELEMENTOS =================
@@ -82,8 +93,12 @@ inputData.min = new Date().toISOString().split("T")[0];
 
 // ================= ABAS =================
 function trocarAba(nome, el) {
-  document.querySelectorAll(".aba").forEach((aba) => aba.classList.remove("ativa"));
-  document.querySelectorAll(".tabs button").forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelectorAll(".aba")
+    .forEach((aba) => aba.classList.remove("ativa"));
+  document
+    .querySelectorAll(".tabs button")
+    .forEach((btn) => btn.classList.remove("active"));
 
   document.getElementById(nome).classList.add("ativa");
   if (el) el.classList.add("active");
@@ -137,6 +152,33 @@ function horarioJaPassou(dataSelecionada, horario) {
   const dataHoraHorario = new Date(ano, mes - 1, dia, hora, minuto);
 
   return dataHoraHorario <= agora;
+}
+function obterDuracaoSelecionada() {
+  if (selectServico.value) {
+    const servico = servicos.find((s) => s.nome === selectServico.value);
+    return servico ? servico.duracao : 0;
+  }
+
+  if (selectCombo.value) {
+    const combo = combos.find((c) => c.nome === selectCombo.value);
+    return combo ? combo.duracao : 0;
+  }
+
+  return 0;
+}
+function horarioParaMinutos(horario) {
+  const [h, m] = horario.split(":").map(Number);
+  return h * 60 + m;
+}
+
+function horariosConflitam(horaInicio1, duracao1, horaInicio2, duracao2 = 30) {
+  const inicio1 = horarioParaMinutos(horaInicio1);
+  const fim1 = inicio1 + duracao1;
+
+  const inicio2 = horarioParaMinutos(horaInicio2);
+  const fim2 = inicio2 + duracao2;
+
+  return inicio1 < fim2 && inicio2 < fim1;
 }
 
 function formatarTelefone(valor) {
@@ -209,7 +251,7 @@ function renderizarBarbeiros() {
 
   listaBarbeiros.innerHTML = "";
 
-  barbeiros.forEach(b => {
+  barbeiros.forEach((b) => {
     listaBarbeiros.innerHTML += `
       <div class="barbeiro-card">
         <img src="${b.foto}" class="barbeiro-img" alt="${b.nome}">
@@ -226,15 +268,18 @@ function renderizarBarbeiros() {
 selectServico.addEventListener("change", () => {
   selectCombo.value = "";
   const servico = servicos.find((s) => s.nome === selectServico.value);
-  valor.textContent = servico ? `Valor: R$ ${servico.preco}` : "";
+  valor.textContent = servico
+    ? `Valor: R$ ${servico.preco} • Duração: ${servico.duracao} min`
+    : "";
 });
 
 selectCombo.addEventListener("change", () => {
   selectServico.value = "";
   const combo = combos.find((c) => c.nome === selectCombo.value);
-  valor.textContent = combo ? `Valor: R$ ${combo.preco}` : "";
+  valor.textContent = combo
+    ? `Valor: R$ ${combo.preco} • Duração: ${combo.duracao} min`
+    : "";
 });
-
 // ================= HORÁRIOS =================
 async function atualizarHorarios() {
   const dataSelecionada = inputData.value;
@@ -253,7 +298,7 @@ async function atualizarHorarios() {
 
   try {
     const res = await fetch(
-      `${API_URL}/horarios?data=${dataSelecionada}&barbeiro=${encodeURIComponent(barbeiroSelecionado)}`
+      `${API_URL}/horarios?data=${dataSelecionada}&barbeiro=${encodeURIComponent(barbeiroSelecionado)}`,
     );
 
     if (!res.ok) {
@@ -262,15 +307,31 @@ async function atualizarHorarios() {
 
     const ocupados = await res.json();
     const hojeFormatado = new Date().toISOString().split("T")[0];
+    const duracaoSelecionada = obterDuracaoSelecionada() || 30;
 
     horarios.forEach((h) => {
-      const ocupado = ocupados.some((o) => o.hora && o.hora.slice(0, 5) === h);
+      const conflita = ocupados.some((o) => {
+        const horaBanco = o.hora && o.hora.slice(0, 5);
+        const duracaoBanco = o.duracao || 30;
 
-      if (dataSelecionada === hojeFormatado && horarioJaPassou(dataSelecionada, h)) {
+        if (!horaBanco) return false;
+
+        return horariosConflitam(
+          h,
+          duracaoSelecionada,
+          horaBanco,
+          duracaoBanco,
+        );
+      });
+
+      if (
+        dataSelecionada === hojeFormatado &&
+        horarioJaPassou(dataSelecionada, h)
+      ) {
         return;
       }
 
-      if (!ocupado) {
+      if (!conflita) {
         selectHora.innerHTML += `<option value="${h}">${h}</option>`;
       }
     });
@@ -362,16 +423,17 @@ formAgendamento.addEventListener("submit", async (e) => {
     data: dataSelecionada,
     hora: horaSelecionada,
     nome: inputNome.value.trim(),
-    telefone: telefoneFormatado
+    telefone: telefoneFormatado,
+    duracao: obterDuracaoSelecionada(),
   };
 
   try {
     const res = await fetch(`${API_URL}/agendar`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(agendamento)
+      body: JSON.stringify(agendamento),
     });
 
     const data = await res.json();
@@ -444,7 +506,7 @@ async function carregarAgendamentos() {
 async function deletar(id) {
   try {
     await fetch(`${API_URL}/agendamentos/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     });
 
     carregarAgendamentos();
@@ -456,7 +518,6 @@ async function deletar(id) {
 
 // ================= LOADING =================
 window.addEventListener("load", () => {
-
   renderizarBarbeiros();
 
   if (!loading) return;
