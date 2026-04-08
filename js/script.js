@@ -2,6 +2,7 @@
 const API_URL = "https://barbearia-api-23on.onrender.com";
 
 const barbeiros = [
+<<<<<<< HEAD
   {
     nome: "Junior Ferreira",
     especialidade: "Corte social e degradê",
@@ -27,6 +28,13 @@ const barbeiros = [
     especialidade: "Barba e acabamento",
     foto: "images/douglas.png"
   }
+=======
+  { nome: "Junior Ferreira" },
+  { nome: "Diego Alves" },
+  { nome: "Samuel Santos" },
+  { nome: "Rian Lukas" },
+  { nome: "Douglas" }
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
 ];
 
 const servicos = [
@@ -75,7 +83,10 @@ const inputTelefone = document.getElementById("telefone");
 const valor = document.getElementById("valor");
 const listaProdutos = document.getElementById("listaProdutos");
 const listaAdmin = document.getElementById("listaAdmin");
+<<<<<<< HEAD
 const listaBarbeiros = document.getElementById("listaBarbeiros");
+=======
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
 const loading = document.getElementById("loading");
 
 // ================= CONFIG =================
@@ -200,11 +211,16 @@ ${nome}
 
 Pode separar pra mim?`;
 
+<<<<<<< HEAD
   const numero = "5575981080660";
+=======
+  const numero = "5575988434344";
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
 
   window.location.href = url;
 }
+<<<<<<< HEAD
 // ================= ABA SOBRE =================
 function renderizarBarbeiros() {
   if (!listaBarbeiros) return;
@@ -223,6 +239,8 @@ function renderizarBarbeiros() {
     `;
   });
 }
+=======
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
 
 // ================= SERVIÇO / COMBO =================
 selectServico.addEventListener("change", () => {
@@ -458,7 +476,10 @@ async function deletar(id) {
 
 // ================= LOADING =================
 window.addEventListener("load", () => {
+<<<<<<< HEAD
   renderizarBarbeiros();
+=======
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
   if (!loading) return;
 
   setTimeout(() => {

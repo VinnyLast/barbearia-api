@@ -3,6 +3,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+<<<<<<< HEAD
+=======
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
 }
 
 /* CORES */
@@ -355,6 +359,7 @@ button:hover {
   50% { transform: scale(1.2); opacity: 1; }
   100% { transform: scale(1); opacity: 0.6; }
 }
+<<<<<<< HEAD
 /* Sobre */
 #listaBarbeiros {
   display: flex;
@@ -399,11 +404,14 @@ button:hover {
   color: #bdbdbd;
   line-height: 1.4;
 }
+=======
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
 
 /* RESPONSIVO */
 @media (max-width: 420px) {
   .app { padding: 12px; }
   header h1 { font-size: 18px; }
+<<<<<<< HEAD
 }
 /* TRANSIÇÕES SÓ ONDE PRECISA */
 .tabs button,
@@ -571,4 +579,6 @@ input {
     font-size: 13px;
     line-height: 1.35;
   }
+=======
+>>>>>>> f7a67d0f776edfe76f7ffdaa4bc727a1ee1ac8e3
 }
