@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JR Barbearia</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="images/img.png">
+</head>
+
+<body>
+<div id="loading">
+  <img src="images/img.png" class="loading-logo">
+</div>
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+    <img src="images/img.png" alt="JR Barbearia" class="logo-img">
+    <h1>JR BARBEARIA</h1>
+    <p>Cortes modernos • Agendamento rápido</p>
+  </header>
+
+  <!-- AVALIAÇÕES -->
+  <div class="reviews">
+    <p>⭐⭐⭐⭐⭐ 4.9 no Google</p>
+  </div>
+
+  <!-- ABAS -->
+  <nav class="tabs">
+    <button onclick="trocarAba('agendamento', this)" class="active">
+      Agendar
+    </button>
+
+    <button onclick="trocarAba('produtos', this)">
+      Produtos
+    </button>
+    
+    <button onclick="trocarAba('sobre', this)">
+    Sobre
+  </button>
+
+    <!-- botão secreto -->
+    <button onclick="acessarPainel()" id="btnPainel" style="display: none">
+      🔒 Painel
+    </button>
+  </nav>
+
+  <!-- LOCALIZAÇÃO -->
+   <div class="localizacao">
+  <h3>📍 Nossa Localização</h3>
+
+  <p class="endereco">
+    R. São Salvador, 1259 - 35º BI<br>
+    Feira de Santana - BA
+  </p>
+
+  <a href="https://maps.app.goo.gl/B3qdHchj9Ufce6xR9" target="_blank">
+    Ver no Google Maps
+  </a>
+</div>
+
+  <!-- ABA AGENDAMENTO -->
+  <div id="agendamento" class="aba ativa">
+    <form id="formAgendamento" class="card">
+
+      <label>Barbeiro</label>
+      <select id="barbeiro" required>
+        <option value="">Escolha o barbeiro</option>
+      </select>
+
+      <label>Serviços</label>
+      <select id="servico">
+        <option value="">Selecione um serviço</option>
+      </select>
+
+      <label>Combos</label>
+      <select id="combo">
+        <option value="">Ou escolha um combo</option>
+      </select>
+
+      <div class="valor-box">
+        <p id="valor"></p>
+      </div>
+
+      <label>Data</label>
+      <input type="date" id="data" required>
+<small>Não atendemos aos domingos</small>
+
+      <label>Horário</label>
+      <select id="hora" required>
+        <option value="" disabled selected>Selecione um horário</option>
+      </select>
+
+      <label>Nome</label>
+      <input type="text" id="nome" placeholder="Seu nome" required />
+
+      <label>Telefone</label>
+      <input 
+  type="tel" 
+  id="telefone" 
+  placeholder="(75) 99999-9999"
+  maxlength="15"
+  required
+/>
+
+      <button type="submit">💈 Confirmar Agendamento</button>
+
+    </form>
+  </div>
+
+  <!-- ABA PRODUTOS -->
+  <div id="produtos" class="aba">
+    <div class="card">
+      <h2>Produtos</h2>
+      <ul id="listaProdutos"></ul>
+    </div>
+  </div>
+
+  <!-- ABA PAINEL -->
+  <div id="painel" class="aba">
+    <div class="card">
+      <h2>Agendamentos</h2>
+      <ul id="listaAdmin"></ul>
+    </div>
+  </div>
+
+</div>
+<!-- ABA SOBRE -->
+<div id="sobre" class="aba">
+  <div class="card">
+    <h2>Sobre a JR Barbearia</h2>
+    <p>Bem-vindo à JR Barbearia! Somos uma barbearia moderna e acolhedora, localizada no coração de Feira de Santana. Nosso compromisso é oferecer o melhor serviço de cabelo e barba, com profissionais qualificados e equipamentos de alta qualidade.</p>
+    <div id="listaBarbeiros"></div>
+  </div>
+</div>
+
+<!-- BOTÃO WHATSAPP -->
+<div class="cta-whatsapp">
+  <a href="https://wa.me/5575981080660" target="_blank">
+    Falar direto no WhatsApp
+  </a>
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
