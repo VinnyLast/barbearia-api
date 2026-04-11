@@ -473,3 +473,15 @@ button {
         margin-bottom: 30px;
     }
 }
+/* Garante que o card inteiro mude de cor ao ser clicado */
+.item-selecao.selecionado {
+    border-color: var(--verde) !important;
+    background: rgba(53, 94, 59, 0.25) !important; /* Um verde mais visível */
+    transform: scale(1.02); /* Leve aumento para dar feedback visual */
+    box-shadow: 0 0 15px rgba(53, 94, 59, 0.4);
+}
+
+/* Impede que o clique "pegue" na imagem e ignore o card */
+.item-selecao * {
+    pointer-events: none;
+}
