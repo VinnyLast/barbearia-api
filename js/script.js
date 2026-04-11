@@ -10,8 +10,8 @@ const barbeiros = [
 ];
 
 const servicos = [
-  { nome: "Corte", preco: 25, duracao: 40, img: "images/servico-corte.jpg" },
-  { nome: "Barba", preco: 15, duracao: 20, img: "images/servico-barba.jpg" },
+  { nome: "Corte", preco: 25, duracao: 40, img: "images/corte.png" },
+  { nome: "Barba", preco: 15, duracao: 20, img: "images/barba.png" },
   { nome: "Pezinho", preco: 10, duracao: 10, img: "images/servico-pezinho.jpg" },
   { nome: "Luzes", preco: 60, duracao: 30, img: "images/servico-luzes.jpg" },
   { nome: "Platinado", preco: 80, duracao: 60, img: "images/servico-platinado.jpg" },
