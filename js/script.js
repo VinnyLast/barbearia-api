@@ -2,31 +2,11 @@
 const API_URL = "https://barbearia-api-23on.onrender.com";
 
 const barbeiros = [
-  {
-    nome: "Junior Ferreira",
-    especialidade: "Corte social e degradê",
-    foto: "images/junior.png",
-  },
-  {
-    nome: "Diego Alves",
-    especialidade: "Barba e acabamento",
-    foto: "images/diego.png",
-  },
-  {
-    nome: "Samuel Santos",
-    especialidade: "Cortes modernos",
-    foto: "images/samuel.png",
-  },
-  {
-    nome: "Rian Lukas",
-    especialidade: "Cortes modernos e freestyle",
-    foto: "images/lukas.png",
-  },
-  {
-    nome: "Douglas",
-    especialidade: "Barba e acabamento",
-    foto: "images/douglas.png",
-  },
+  { nome: "Junior Ferreira", especialidade: "Corte social e degradê", foto: "images/junior.png" },
+  { nome: "Diego Alves", especialidade: "Barba e acabamento", foto: "images/diego.png" },
+  { nome: "Samuel Santos", especialidade: "Cortes modernos", foto: "images/samuel.png" },
+  { nome: "Rian Lukas", especialidade: "Cortes modernos e freestyle", foto: "images/lukas.png" },
+  { nome: "Douglas", especialidade: "Barba e acabamento", foto: "images/douglas.png" },
 ];
 
 const servicos = [
@@ -58,21 +38,7 @@ const produtos = [
   { nome: "Óleo para barba", preco: 20, img: "images/oleo.gif" },
 ];
 
-const horarios = [
-  "08:00",
-  "08:30",
-  "09:00",
-  "09:30",
-  "10:00",
-  "10:30",
-  "14:00",
-  "14:30",
-  "15:00",
-  "15:30",
-  "16:00",
-  "16:30",
-  "17:00",
-];
+const horarios = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
 
 // ================= ELEMENTOS =================
 const formAgendamento = document.getElementById("formAgendamento");
@@ -92,8 +58,9 @@ const listaServicos = document.getElementById("listaServicos");
 const listaCombos = document.getElementById("listaCombos");
 const loading = document.getElementById("loading");
 
-const blocoServicos = listaServicos ? listaServicos.parentElement : null;
-const blocoCombos = listaCombos ? listaCombos.parentElement : null;
+// Seleciona os blocos pais para esconder/mostrar (Certifique-se de ter os IDs no HTML)
+const blocoServicos = document.getElementById("bloco-servicos") || (listaServicos ? listaServicos.parentElement : null);
+const blocoCombos = document.getElementById("bloco-combos") || (listaCombos ? listaCombos.parentElement : null);
 
 // ================= CONFIG =================
 inputData.min = new Date().toISOString().split("T")[0];
@@ -103,7 +70,8 @@ function trocarAba(nome, el) {
   document.querySelectorAll(".aba").forEach((aba) => aba.classList.remove("ativa"));
   document.querySelectorAll(".tabs button").forEach((btn) => btn.classList.remove("active"));
 
-  document.getElementById(nome).classList.add("ativa");
+  const abaAlvo = document.getElementById(nome);
+  if (abaAlvo) abaAlvo.classList.add("ativa");
   if (el) el.classList.add("active");
 }
 
@@ -115,6 +83,7 @@ function acessarPainel() {
 
   if (senha === senhaAdmin) {
     trocarAba("painel");
+    document.getElementById("btnPainel").style.display = "block"; // Mostra o botão após logar
     carregarAgendamentos();
   } else {
     alert("Senha incorreta!");
@@ -123,19 +92,14 @@ function acessarPainel() {
 
 let cliques = 0;
 const header = document.querySelector("header");
-
 if (header) {
   header.addEventListener("click", () => {
     cliques++;
-
     if (cliques === 5) {
       acessarPainel();
       cliques = 0;
     }
-
-    setTimeout(() => {
-      cliques = 0;
-    }, 2000);
+    setTimeout(() => { cliques = 0; }, 2000);
   });
 }
 
@@ -148,25 +112,21 @@ function ehDomingo(data) {
 
 function horarioJaPassou(dataSelecionada, horario) {
   const agora = new Date();
-
   const [ano, mes, dia] = dataSelecionada.split("-").map(Number);
   const [hora, minuto] = horario.split(":").map(Number);
-
   const dataHoraHorario = new Date(ano, mes - 1, dia, hora, minuto);
   return dataHoraHorario <= agora;
 }
 
 function obterDuracaoSelecionada() {
   if (selectServico.value) {
-    const servico = servicos.find((s) => s.nome === selectServico.value);
-    return servico ? servico.duracao : 30;
+    const s = servicos.find((s) => s.nome === selectServico.value);
+    return s ? s.duracao : 30;
   }
-
   if (selectCombo.value) {
-    const combo = combos.find((c) => c.nome === selectCombo.value);
-    return combo ? combo.duracao : 30;
+    const c = combos.find((c) => c.nome === selectCombo.value);
+    return c ? c.duracao : 30;
   }
-
   return 30;
 }
 
@@ -178,51 +138,31 @@ function horarioParaMinutos(horario) {
 function horariosConflitam(horaInicio1, duracao1, horaInicio2, duracao2 = 30) {
   const inicio1 = horarioParaMinutos(horaInicio1);
   const fim1 = inicio1 + duracao1;
-
   const inicio2 = horarioParaMinutos(horaInicio2);
   const fim2 = inicio2 + duracao2;
-
   return inicio1 < fim2 && inicio2 < fim1;
 }
 
 function formatarTelefone(valorInput) {
-  let telefone = valorInput.replace(/\D/g, "").slice(0, 11);
-
-  if (telefone.length > 10) {
-    telefone = telefone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
-  } else if (telefone.length > 6) {
-    telefone = telefone.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
-  } else if (telefone.length > 2) {
-    telefone = telefone.replace(/(\d{2})(\d+)/, "($1) $2");
-  } else if (telefone.length > 0) {
-    telefone = telefone.replace(/(\d*)/, "($1");
-  }
-
-  return telefone;
+  let tel = valorInput.replace(/\D/g, "").slice(0, 11);
+  if (tel.length > 10) tel = tel.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+  else if (tel.length > 6) tel = tel.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
+  else if (tel.length > 2) tel = tel.replace(/(\d{2})(\d+)/, "($1) $2");
+  else if (tel.length > 0) tel = tel.replace(/(\d*)/, "($1");
+  return tel;
 }
 
 function limparSelecao(container) {
   if (!container) return;
-  container.querySelectorAll(".item-selecao").forEach((el) => {
-    el.classList.remove("selecionado");
-  });
+  container.querySelectorAll(".item-selecao").forEach((el) => el.classList.remove("selecionado"));
 }
 
 function atualizarValorSelecionado() {
-  const servico = servicos.find((s) => s.nome === selectServico.value);
-  const combo = combos.find((c) => c.nome === selectCombo.value);
-
-  if (servico) {
-    valor.textContent = `Valor: R$ ${servico.preco} • Duração: ${servico.duracao} min`;
-    return;
-  }
-
-  if (combo) {
-    valor.textContent = `Valor: R$ ${combo.preco} • Duração: ${combo.duracao} min`;
-    return;
-  }
-
-  valor.textContent = "";
+  const s = servicos.find((s) => s.nome === selectServico.value);
+  const c = combos.find((c) => c.nome === selectCombo.value);
+  if (s) valor.textContent = `Valor: R$ ${s.preco} • Duração: ${s.duracao} min`;
+  else if (c) valor.textContent = `Valor: R$ ${c.preco} • Duração: ${c.duracao} min`;
+  else valor.textContent = "";
 }
 
 function resetarFluxoAgendamento() {
@@ -231,355 +171,175 @@ function resetarFluxoAgendamento() {
   selectCombo.value = "";
   valor.textContent = "";
   selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
-
   limparSelecao(listaBarbeirosSelecionavel);
   limparSelecao(listaServicos);
   limparSelecao(listaCombos);
-
   if (blocoServicos) blocoServicos.style.display = "none";
   if (blocoCombos) blocoCombos.style.display = "none";
 }
 
-// ================= AGENDAMENTO VISUAL =================
+// ================= RENDERIZADORES =================
 function renderizarBarbeirosSelecionaveis() {
   if (!listaBarbeirosSelecionavel) return;
-
   listaBarbeirosSelecionavel.innerHTML = "";
-
   barbeiros.forEach((b) => {
     const card = document.createElement("div");
     card.className = "item-selecao";
-    card.innerHTML = `
-      <img src="${b.foto}" alt="${b.nome}" class="item-selecao-img">
-      <span>${b.nome}</span>
-      <small>${b.especialidade}</small>
-    `;
-
+    card.innerHTML = `<img src="${b.foto}" alt="${b.nome}" class="item-selecao-img"><span>${b.nome}</span><small>${b.especialidade}</small>`;
     card.addEventListener("click", () => {
       limparSelecao(listaBarbeirosSelecionavel);
       card.classList.add("selecionado");
-
       selectBarbeiro.value = b.nome;
-
       if (blocoServicos) blocoServicos.style.display = "block";
       if (blocoCombos) blocoCombos.style.display = "none";
-
       selectServico.value = "";
       selectCombo.value = "";
       valor.textContent = "";
       limparSelecao(listaServicos);
       limparSelecao(listaCombos);
-      selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
-
       atualizarHorarios();
     });
-
     listaBarbeirosSelecionavel.appendChild(card);
   });
 }
 
 function renderizarServicosSelecionaveis() {
   if (!listaServicos) return;
-
   listaServicos.innerHTML = "";
-
   servicos.forEach((s) => {
     const card = document.createElement("div");
     card.className = "item-selecao";
-    card.innerHTML = `
-      <img src="${s.img}" alt="${s.nome}" class="item-selecao-img">
-      <span>${s.nome}</span>
-      <small>R$ ${s.preco}</small>
-    `;
-
+    card.innerHTML = `<img src="${s.img}" alt="${s.nome}" class="item-selecao-img"><span>${s.nome}</span><small>R$ ${s.preco}</small>`;
     card.addEventListener("click", () => {
       limparSelecao(listaServicos);
       limparSelecao(listaCombos);
-
       card.classList.add("selecionado");
       selectServico.value = s.nome;
       selectCombo.value = "";
-
       atualizarValorSelecionado();
-
       if (blocoCombos) blocoCombos.style.display = "block";
-
       atualizarHorarios();
     });
-
     listaServicos.appendChild(card);
   });
 }
 
 function renderizarCombosSelecionaveis() {
   if (!listaCombos) return;
-
   listaCombos.innerHTML = "";
-
   combos.forEach((c) => {
     const card = document.createElement("div");
     card.className = "item-selecao";
-    card.innerHTML = `
-      <img src="${c.img}" alt="${c.nome}" class="item-selecao-img">
-      <span>${c.nome}</span>
-      <small>R$ ${c.preco}</small>
-    `;
-
+    card.innerHTML = `<img src="${c.img}" alt="${c.nome}" class="item-selecao-img"><span>${c.nome}</span><small>R$ ${c.preco}</small>`;
     card.addEventListener("click", () => {
       limparSelecao(listaCombos);
       limparSelecao(listaServicos);
-
       card.classList.add("selecionado");
       selectCombo.value = c.nome;
       selectServico.value = "";
-
       atualizarValorSelecionado();
       atualizarHorarios();
     });
-
     listaCombos.appendChild(card);
   });
 }
 
-// ================= PRODUTOS =================
 function renderizarProdutos() {
   if (!listaProdutos) return;
-
   listaProdutos.innerHTML = "";
-
   produtos.forEach((p) => {
     const li = document.createElement("li");
-
-    li.innerHTML = `
-      <div class="produto-info">
-        <img src="${p.img}" class="produto-img" alt="${p.nome}">
-        <div>
-          <span>${p.nome}</span><br>
-          <small>Produto profissional</small>
-        </div>
-      </div>
-      <div class="preco">R$ ${p.preco}</div>
-    `;
-
+    li.innerHTML = `<div class="produto-info"><img src="${p.img}" class="produto-img"><div><span>${p.nome}</span><br><small>Produto profissional</small></div></div><div class="preco">R$ ${p.preco}</div>`;
     li.addEventListener("click", () => comprarProduto(p.nome, p.preco));
     listaProdutos.appendChild(li);
   });
 }
 
 function comprarProduto(nome, preco) {
-  const mensagem = `🛍️ *JR Barbearia*
-
-Quero comprar:
-
-${nome}
-💰 R$ ${preco}
-
-Pode separar pra mim?`;
-
-  const numero = "5575981080660";
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-  window.location.href = url;
+  const num = "5575981080660";
+  const msg = `🛍️ *JR Barbearia*\nQuero comprar: ${nome} (R$ ${preco})`;
+  window.location.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 
-// ================= ABA SOBRE =================
 function renderizarBarbeiros() {
   if (!listaBarbeiros) return;
-
   listaBarbeiros.innerHTML = "";
-
   barbeiros.forEach((b) => {
-    listaBarbeiros.innerHTML += `
-      <div class="barbeiro-card">
-        <img src="${b.foto}" class="barbeiro-img" alt="${b.nome}">
-        <div class="barbeiro-info">
-          <h3>${b.nome}</h3>
-          <p>${b.especialidade}</p>
-        </div>
-      </div>
-    `;
+    listaBarbeiros.innerHTML += `<div class="barbeiro-card"><img src="${b.foto}" class="barbeiro-img"><div class="barbeiro-info"><h3>${b.nome}</h3><p>${b.especialidade}</p></div></div>`;
   });
 }
 
 // ================= HORÁRIOS =================
 async function atualizarHorarios() {
-  const dataSelecionada = inputData.value;
-  const barbeiroSelecionado = selectBarbeiro.value;
-
-  if (!dataSelecionada || !barbeiroSelecionado) return;
-
-  if (ehDomingo(dataSelecionada)) {
+  const dataSel = inputData.value;
+  const barbSel = selectBarbeiro.value;
+  if (!dataSel || !barbSel) return;
+  if (ehDomingo(dataSel)) {
     alert("Não atendemos aos domingos.");
     inputData.value = "";
-    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
     return;
   }
-
-  selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
-
+  selectHora.innerHTML = `<option value="">Carregando...</option>`;
   try {
-    const res = await fetch(
-      `${API_URL}/horarios?data=${dataSelecionada}&barbeiro=${encodeURIComponent(barbeiroSelecionado)}`
-    );
-
-    if (!res.ok) {
-      throw new Error("Erro ao carregar horários.");
-    }
-
+    const res = await fetch(`${API_URL}/horarios?data=${dataSel}&barbeiro=${encodeURIComponent(barbSel)}`);
     const ocupados = await res.json();
-    const hojeFormatado = new Date().toISOString().split("T")[0];
-    const duracaoSelecionada = obterDuracaoSelecionada() || 30;
+    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+    const hoje = new Date().toISOString().split("T")[0];
+    const duracaoSel = obterDuracaoSelecionada();
 
     horarios.forEach((h) => {
-      const conflita = ocupados.some((o) => {
-        const horaBanco = o.hora && o.hora.slice(0, 5);
-        const duracaoBanco = o.duracao || 30;
-
-        if (!horaBanco) return false;
-
-        return horariosConflitam(h, duracaoSelecionada, horaBanco, duracaoBanco);
-      });
-
-      if (dataSelecionada === hojeFormatado && horarioJaPassou(dataSelecionada, h)) {
-        return;
-      }
-
-      if (!conflita) {
-        selectHora.innerHTML += `<option value="${h}">${h}</option>`;
-      }
+      const conflita = ocupados.some((o) => horariosConflitam(h, duracaoSel, o.hora.slice(0, 5), o.duracao || 30));
+      if (dataSel === hoje && horarioJaPassou(dataSel, h)) return;
+      if (!conflita) selectHora.innerHTML += `<option value="${h}">${h}</option>`;
     });
   } catch (err) {
-    console.error("Erro ao buscar horários:", err);
-    alert("Não foi possível carregar os horários.");
+    console.error(err);
+    selectHora.innerHTML = `<option value="">Erro ao carregar</option>`;
   }
 }
 
-inputData.addEventListener("change", () => {
-  const dataSelecionada = inputData.value;
-
-  if (!dataSelecionada) return;
-
-  if (ehDomingo(dataSelecionada)) {
-    alert("Não atendemos aos domingos.");
-    inputData.value = "";
-    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
-    return;
-  }
-
-  atualizarHorarios();
-});
-
-// ================= TELEFONE =================
-inputTelefone.addEventListener("input", (e) => {
-  e.target.value = formatarTelefone(e.target.value);
-});
+inputData.addEventListener("change", atualizarHorarios);
+inputTelefone.addEventListener("input", (e) => { e.target.value = formatarTelefone(e.target.value); });
 
 // ================= AGENDAR =================
 formAgendamento.addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  const telefoneFormatado = inputTelefone.value;
-  const telefoneLimpo = telefoneFormatado.replace(/\D/g, "");
   const selecionado = selectServico.value || selectCombo.value;
-  const dataSelecionada = inputData.value;
-  const horaSelecionada = selectHora.value;
-
-  if (!selectBarbeiro.value) {
-    alert("Escolha um barbeiro!");
-    return;
-  }
-
-  if (!selecionado) {
-    alert("Escolha um serviço ou combo!");
-    return;
-  }
-
-  if (!dataSelecionada) {
-    alert("Escolha uma data!");
-    return;
-  }
-
-  if (ehDomingo(dataSelecionada)) {
-    alert("Não atendemos aos domingos.");
-    return;
-  }
-
-  if (!horaSelecionada) {
-    alert("Escolha um horário!");
-    return;
-  }
-
-  if (horarioJaPassou(dataSelecionada, horaSelecionada)) {
-    const hojeFormatado = new Date().toISOString().split("T")[0];
-    if (dataSelecionada === hojeFormatado) {
-      alert("Esse horário já passou. Escolha outro.");
-      atualizarHorarios();
-      return;
-    }
-  }
-
-  if (inputNome.value.trim().length < 2) {
-    alert("Digite um nome válido!");
-    return;
-  }
-
-  if (telefoneFormatado.length < 15 || telefoneLimpo.length !== 11) {
-    alert("Digite um telefone válido!");
+  
+  if (!selectBarbeiro.value || !selecionado || !inputData.value || !selectHora.value) {
+    alert("Preencha todos os campos!");
     return;
   }
 
   const agendamento = {
     barbeiro: selectBarbeiro.value,
     servico: selecionado,
-    data: dataSelecionada,
-    hora: horaSelecionada,
+    data: inputData.value,
+    hora: selectHora.value,
     nome: inputNome.value.trim(),
-    telefone: telefoneFormatado,
+    telefone: inputTelefone.value,
     duracao: obterDuracaoSelecionada(),
   };
 
   try {
     const res = await fetch(`${API_URL}/agendar`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(agendamento),
     });
 
-    const data = await res.json();
+    if (!res.ok) throw new Error("Erro na API");
 
-    if (!res.ok) {
-      alert(data.erro || "Erro ao agendar.");
-      return;
+    const confirmarZap = confirm("Agendamento realizado com sucesso! Deseja abrir o WhatsApp para enviar o comprovante?");
+    
+    if (confirmarZap) {
+      const msg = `Olá, agendamento na JR Barbearia:\n\nBarbeiro: ${agendamento.barbeiro}\nServiço: ${agendamento.servico}\nData: ${agendamento.data}\nHorário: ${agendamento.hora}\n\nNome: ${agendamento.nome}`;
+      window.location.href = `https://wa.me/5575981080660?text=${encodeURIComponent(msg)}`;
     }
-
-    const mensagem = `Olá, gostaria de agendar na JR Barbearia:
-
-Barbeiro: ${agendamento.barbeiro}
-Serviço: ${agendamento.servico}
-Data: ${agendamento.data}
-Horário: ${agendamento.hora}
-
-Nome: ${agendamento.nome}
-Telefone: ${agendamento.telefone}`;
-
-    const numero = "5575981080660";
-    const mensagemCodificada = encodeURIComponent(mensagem);
-    const urlApp = `whatsapp://send?phone=${numero}&text=${mensagemCodificada}`;
-    const urlWeb = `https://wa.me/${numero}?text=${mensagemCodificada}`;
-
-    alert("Agendamento realizado com sucesso!");
 
     formAgendamento.reset();
     resetarFluxoAgendamento();
-
-    window.location.href = urlApp;
-
-    setTimeout(() => {
-      window.location.href = urlWeb;
-    }, 1200);
   } catch (err) {
-    console.error("Erro ao agendar:", err);
     alert("Não foi possível concluir o agendamento.");
   }
 });
@@ -588,40 +348,18 @@ Telefone: ${agendamento.telefone}`;
 async function carregarAgendamentos() {
   try {
     const res = await fetch(`${API_URL}/agendamentos`);
-
-    if (!res.ok) {
-      throw new Error("Erro ao carregar agendamentos.");
-    }
-
     const dados = await res.json();
     listaAdmin.innerHTML = "";
-
     dados.forEach((a) => {
-      listaAdmin.innerHTML += `
-        <li>
-          <strong>${a.nome}</strong> - ${a.servico}<br>
-          ${a.data} às ${a.hora.slice(0, 5)}<br>
-          Barbeiro: ${a.barbeiro}<br>
-          <button onclick="deletar(${a.id})">Excluir</button>
-        </li>
-      `;
+      listaAdmin.innerHTML += `<li><strong>${a.nome}</strong> - ${a.servico}<br>${a.data} às ${a.hora.slice(0, 5)}<br>Barbeiro: ${a.barbeiro} <button onclick="deletar(${a.id})">Excluir</button></li>`;
     });
-  } catch (err) {
-    console.error("Erro ao carregar agendamentos:", err);
-    listaAdmin.innerHTML = `<li>Erro ao carregar agendamentos.</li>`;
-  }
+  } catch (err) { console.error(err); }
 }
 
 async function deletar(id) {
-  try {
-    await fetch(`${API_URL}/agendamentos/${id}`, {
-      method: "DELETE",
-    });
-
+  if (confirm("Deseja excluir este agendamento?")) {
+    await fetch(`${API_URL}/agendamentos/${id}`, { method: "DELETE" });
     carregarAgendamentos();
-  } catch (err) {
-    console.error("Erro ao deletar:", err);
-    alert("Não foi possível excluir o agendamento.");
   }
 }
 
@@ -634,14 +372,10 @@ window.addEventListener("load", () => {
   renderizarCombosSelecionaveis();
   resetarFluxoAgendamento();
 
-  if (!loading) return;
-
-  setTimeout(() => {
-    loading.style.opacity = "0";
-    loading.style.transition = "0.4s";
-
+  if (loading) {
     setTimeout(() => {
-      loading.style.display = "none";
-    }, 400);
-  }, 800);
+      loading.style.opacity = "0";
+      setTimeout(() => { loading.style.display = "none"; }, 400);
+    }, 800);
+  }
 });

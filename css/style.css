@@ -355,50 +355,56 @@ button:hover {
   100% { transform: scale(1); opacity: 0.6; }
 }
 /* Sobre */
+/* Aba Sobre Centralizada */
+#sobre .card {
+  text-align: center;
+  align-items: center;
+}
+
+#sobre p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
 #listaBarbeiros {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 15px;
+  gap: 15px;
+  width: 100%;
 }
 
 .barbeiro-card {
   display: flex;
+  flex-direction: column;   /* Foto em cima do nome no celular */
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px;
-  border-radius: 16px;
+  padding: 20px;
+  border-radius: 18px;
 }
 
 .barbeiro-img {
-  width: 72px;
-  height: 72px;
-  border-radius: 14px;
+  width: 110px;            /* Foto bem visível no celular */
+  height: 110px;
+  border-radius: 50%;      /* Barbeiros também em círculo */
   object-fit: cover;
-  flex-shrink: 0;
-}
-
-.barbeiro-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  border: 3px solid var(--verde);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
 .barbeiro-info h3 {
-  font-size: 16px;
-  margin: 0 0 4px;
+  font-size: 18px;
   color: #fff;
+  margin-bottom: 4px;
 }
 
 .barbeiro-info p {
   font-size: 14px;
-  margin: 0;
-  color: #bdbdbd;
-  line-height: 1.4;
+  color: #bbb;
 }
-
 /* RESPONSIVO */
 @media (max-width: 420px) {
   .app { padding: 12px; }
@@ -588,13 +594,16 @@ input {
 }
 
 .item-selecao-img {
-  width: 100%;
-  height: 95px;
-  object-fit: cover;
-  border-radius: 10px;
+  width: 80px;            /* Tamanho fixo para garantir o círculo */
+  height: 80px;           /* Tamanho fixo para garantir o círculo */
+  object-fit: cover;      /* Não deixa a imagem esticar */
+  border-radius: 50%;     /* Faz o círculo */
   margin-bottom: 8px;
+  border: 2px solid rgba(53, 94, 59, 0.3);
+  display: block;
+  margin-left: auto;      /* Centraliza a imagem no card */
+  margin-right: auto;     /* Centraliza a imagem no card */
 }
-
 .item-selecao span {
   display: block;
   font-size: 14px;
