@@ -14,6 +14,7 @@
 <div id="loading">
   <img src="images/img.png" class="loading-logo">
 </div>
+
 <div class="app">
 
   <!-- HEADER -->
@@ -39,9 +40,8 @@
     </button>
     
     <button onclick="trocarAba('sobre', this)">
-    Sobre
-  </button>
-
+      Sobre
+    </button>
 
     <!-- botão secreto -->
     <button onclick="acessarPainel()" id="btnPainel" style="display: none">
@@ -50,73 +50,91 @@
   </nav>
 
   <!-- LOCALIZAÇÃO -->
-   <div class="localizacao">
-  <h3><i class="fa-solid fa-location-dot"></i> Nossa Localização</h3>
+  <div class="localizacao">
+    <h3><i class="fa-solid fa-location-dot"></i> Nossa Localização</h3>
 
-  <p class="endereco">
-    R. São Salvador, 1259 - 35º BI<br>
-    Feira de Santana - BA
-  </p>
+    <p class="endereco">
+      R. São Salvador, 1259 - 35º BI<br>
+      Feira de Santana - BA
+    </p>
 
-  <a href="https://maps.app.goo.gl/B3qdHchj9Ufce6xR9" target="_blank">
-    Ver no Google Maps
-  </a>
-</div>
+    <a href="https://maps.app.goo.gl/B3qdHchj9Ufce6xR9" target="_blank">
+      Ver no Google Maps
+    </a>
+  </div>
 
   <!-- ABA AGENDAMENTO -->
-  <div id="agendamento" class="aba ativa">
-    <form id="formAgendamento" class="card">
+  <!-- ABA AGENDAMENTO -->
+<div id="agendamento" class="aba ativa">
+  <form id="formAgendamento" class="card">
 
-      <label>Barbeiro</label>
-      <select id="barbeiro" required>
-        <option value="">Escolha o barbeiro</option>
-      </select>
+    <div class="bloco-selecao">
+      <h3 class="titulo-selecao">Escolha seu barbeiro</h3>
+      <div id="listaBarbeirosSelecionavel" class="grid-selecao"></div>
+      <input type="hidden" id="barbeiro" required>
+    </div>
 
-      <label>Serviços</label>
-      <select id="servico">
-        <option value="">Selecione um serviço</option>
-      </select>
+    <div class="bloco-selecao">
+      <h3 class="titulo-selecao">Escolha seu serviço</h3>
+      <div id="listaServicos" class="grid-selecao"></div>
+      <input type="hidden" id="servico">
+    </div>
 
-      <label>Combos</label>
-      <select id="combo">
-        <option value="">Ou escolha um combo</option>
-      </select>
+    <div class="bloco-selecao">
+      <h3 class="titulo-selecao">Ou escolha um combo</h3>
+      <div id="listaCombos" class="grid-selecao"></div>
+      <input type="hidden" id="combo">
+    </div>
 
-      <div class="valor-box">
-        <p id="valor"></p>
-      </div>
+    <div class="valor-box">
+      <p id="valor"></p>
+    </div>
 
-      <label>Data</label>
-      <input type="date" id="data" required>
-<small>Não atendemos aos domingos</small>
+    <label>Data</label>
+    <input type="date" id="data" required>
+    <small>Não atendemos aos domingos</small>
 
-      <label>Horário</label>
-      <select id="hora" required>
-        <option value="" disabled selected>Selecione um horário</option>
-      </select>
+    <label>Horário</label>
+    <select id="hora" required>
+      <option value="" disabled selected>Selecione um horário</option>
+    </select>
 
-      <label>Nome</label>
-      <input type="text" id="nome" placeholder="Seu nome" required />
+    <label>Nome</label>
+    <input type="text" id="nome" placeholder="Seu nome" required />
 
-      <label>Telefone</label>
-      <input 
-  type="tel" 
-  id="telefone" 
-  placeholder="(75) 99999-9999"
-  maxlength="15"
-  required
-/>
+    <label>Telefone</label>
+    <input
+      type="tel"
+      id="telefone"
+      placeholder="(75) 99999-9999"
+      maxlength="15"
+      required
+    />
 
-      <button type="submit"> Confirmar Agendamento</button>
+    <button type="submit">Confirmar Agendamento</button>
 
-    </form>
-  </div>
+  </form>
+</div>
 
   <!-- ABA PRODUTOS -->
   <div id="produtos" class="aba">
     <div class="card">
       <h2>Produtos</h2>
       <ul id="listaProdutos"></ul>
+    </div>
+  </div>
+
+  <!-- ABA SOBRE -->
+  <div id="sobre" class="aba">
+    <div class="card">
+      <h2>Sobre a JR Barbearia</h2>
+      <p>
+        Bem-vindo à JR Barbearia! Somos uma barbearia moderna e acolhedora,
+        localizada no coração de Feira de Santana. Nosso compromisso é oferecer
+        o melhor serviço de cabelo e barba, com profissionais qualificados e
+        equipamentos de alta qualidade.
+      </p>
+      <div id="listaBarbeiros"></div>
     </div>
   </div>
 
@@ -129,15 +147,6 @@
   </div>
 
 </div>
-<!-- ABA SOBRE -->
-<div id="sobre" class="aba">
-  <div class="card">
-    <h2>Sobre a JR Barbearia</h2>
-    <p>Bem-vindo à JR Barbearia! Somos uma barbearia moderna e acolhedora, localizada no coração de Feira de Santana. Nosso compromisso é oferecer o melhor serviço de cabelo e barba, com profissionais qualificados e equipamentos de alta qualidade.</p>
-    <div id="listaBarbeiros"></div>
-  </div>
-</div>
-
 
 <!-- BOTÃO WHATSAPP -->
 <div class="cta-whatsapp">
@@ -147,6 +156,5 @@
 </div>
 
 <script src="js/script.js"></script>
-
 </body>
 </html>

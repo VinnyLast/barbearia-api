@@ -28,27 +28,28 @@ const barbeiros = [
     foto: "images/douglas.png",
   },
 ];
+
 const servicos = [
-  { nome: "Corte", preco: 25, duracao: 40 },
-  { nome: "Barba", preco: 15, duracao: 20 },
-  { nome: "Pezinho", preco: 10, duracao: 10 },
-  { nome: "Luzes", preco: 60, duracao: 30 },
-  { nome: "Platinado", preco: 80, duracao: 60 },
-  { nome: "Botox", preco: 50, duracao: 40 },
-  { nome: "Barboterapia", preco: 40, duracao: 30 },
-  { nome: "Pigmentação", preco: 30, duracao: 25 },
-  { nome: "Hidratação", preco: 35, duracao: 30 },
-  { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15 },
-  { nome: "Freestyle", preco: 20, duracao: 20 },
-  { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15 },
-  { nome: "Limpeza facial", preco: 25, duracao: 30 },
+  { nome: "Corte", preco: 25, duracao: 40, img: "images/servico-corte.jpg" },
+  { nome: "Barba", preco: 15, duracao: 20, img: "images/servico-barba.jpg" },
+  { nome: "Pezinho", preco: 10, duracao: 10, img: "images/servico-pezinho.jpg" },
+  { nome: "Luzes", preco: 60, duracao: 30, img: "images/servico-luzes.jpg" },
+  { nome: "Platinado", preco: 80, duracao: 60, img: "images/servico-platinado.jpg" },
+  { nome: "Botox", preco: 50, duracao: 40, img: "images/servico-botox.jpg" },
+  { nome: "Barboterapia", preco: 40, duracao: 30, img: "images/servico-barboterapia.jpg" },
+  { nome: "Pigmentação", preco: 30, duracao: 25, img: "images/servico-pigmentacao.jpg" },
+  { nome: "Hidratação", preco: 35, duracao: 30, img: "images/servico-hidratacao.jpg" },
+  { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15, img: "images/servico-sobrancelha.jpg" },
+  { nome: "Freestyle", preco: 20, duracao: 20, img: "images/servico-freestyle.jpg" },
+  { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15, img: "images/servico-depilacao.jpg" },
+  { nome: "Limpeza facial", preco: 25, duracao: 30, img: "images/servico-limpeza.jpg" },
 ];
 
 const combos = [
-  { nome: "Corte + Barba", preco: 40, duracao: 60 },
-  { nome: "Corte + Luzes", preco: 75, duracao: 70 },
-  { nome: "Corte + Platinado", preco: 95, duracao: 90 },
-  { nome: "Corte + Sobrancelha", preco: 35, duracao: 55 },
+  { nome: "Corte + Barba", preco: 40, duracao: 60, img: "images/combo-corte-barba.jpg" },
+  { nome: "Corte + Luzes", preco: 75, duracao: 70, img: "images/combo-corte-luzes.jpg" },
+  { nome: "Corte + Platinado", preco: 95, duracao: 90, img: "images/combo-corte-platinado.jpg" },
+  { nome: "Corte + Sobrancelha", preco: 35, duracao: 55, img: "images/combo-corte-sobrancelha.jpg" },
 ];
 
 const produtos = [
@@ -86,19 +87,21 @@ const valor = document.getElementById("valor");
 const listaProdutos = document.getElementById("listaProdutos");
 const listaAdmin = document.getElementById("listaAdmin");
 const listaBarbeiros = document.getElementById("listaBarbeiros");
+const listaBarbeirosSelecionavel = document.getElementById("listaBarbeirosSelecionavel");
+const listaServicos = document.getElementById("listaServicos");
+const listaCombos = document.getElementById("listaCombos");
 const loading = document.getElementById("loading");
+
+const blocoServicos = listaServicos ? listaServicos.parentElement : null;
+const blocoCombos = listaCombos ? listaCombos.parentElement : null;
 
 // ================= CONFIG =================
 inputData.min = new Date().toISOString().split("T")[0];
 
 // ================= ABAS =================
 function trocarAba(nome, el) {
-  document
-    .querySelectorAll(".aba")
-    .forEach((aba) => aba.classList.remove("ativa"));
-  document
-    .querySelectorAll(".tabs button")
-    .forEach((btn) => btn.classList.remove("active"));
+  document.querySelectorAll(".aba").forEach((aba) => aba.classList.remove("ativa"));
+  document.querySelectorAll(".tabs button").forEach((btn) => btn.classList.remove("active"));
 
   document.getElementById(nome).classList.add("ativa");
   if (el) el.classList.add("active");
@@ -150,22 +153,23 @@ function horarioJaPassou(dataSelecionada, horario) {
   const [hora, minuto] = horario.split(":").map(Number);
 
   const dataHoraHorario = new Date(ano, mes - 1, dia, hora, minuto);
-
   return dataHoraHorario <= agora;
 }
+
 function obterDuracaoSelecionada() {
   if (selectServico.value) {
     const servico = servicos.find((s) => s.nome === selectServico.value);
-    return servico ? servico.duracao : 0;
+    return servico ? servico.duracao : 30;
   }
 
   if (selectCombo.value) {
     const combo = combos.find((c) => c.nome === selectCombo.value);
-    return combo ? combo.duracao : 0;
+    return combo ? combo.duracao : 30;
   }
 
-  return 0;
+  return 30;
 }
+
 function horarioParaMinutos(horario) {
   const [h, m] = horario.split(":").map(Number);
   return h * 60 + m;
@@ -181,8 +185,8 @@ function horariosConflitam(horaInicio1, duracao1, horaInicio2, duracao2 = 30) {
   return inicio1 < fim2 && inicio2 < fim1;
 }
 
-function formatarTelefone(valor) {
-  let telefone = valor.replace(/\D/g, "").slice(0, 11);
+function formatarTelefone(valorInput) {
+  let telefone = valorInput.replace(/\D/g, "").slice(0, 11);
 
   if (telefone.length > 10) {
     telefone = telefone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
@@ -197,39 +201,170 @@ function formatarTelefone(valor) {
   return telefone;
 }
 
-// ================= SELECTS =================
-barbeiros.forEach((b) => {
-  selectBarbeiro.innerHTML += `<option value="${b.nome}">${b.nome}</option>`;
-});
+function limparSelecao(container) {
+  if (!container) return;
+  container.querySelectorAll(".item-selecao").forEach((el) => {
+    el.classList.remove("selecionado");
+  });
+}
 
-servicos.forEach((s) => {
-  selectServico.innerHTML += `<option value="${s.nome}">${s.nome} - R$ ${s.preco}</option>`;
-});
+function atualizarValorSelecionado() {
+  const servico = servicos.find((s) => s.nome === selectServico.value);
+  const combo = combos.find((c) => c.nome === selectCombo.value);
 
-combos.forEach((c) => {
-  selectCombo.innerHTML += `<option value="${c.nome}">${c.nome} - R$ ${c.preco}</option>`;
-});
+  if (servico) {
+    valor.textContent = `Valor: R$ ${servico.preco} • Duração: ${servico.duracao} min`;
+    return;
+  }
+
+  if (combo) {
+    valor.textContent = `Valor: R$ ${combo.preco} • Duração: ${combo.duracao} min`;
+    return;
+  }
+
+  valor.textContent = "";
+}
+
+function resetarFluxoAgendamento() {
+  selectBarbeiro.value = "";
+  selectServico.value = "";
+  selectCombo.value = "";
+  valor.textContent = "";
+  selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+
+  limparSelecao(listaBarbeirosSelecionavel);
+  limparSelecao(listaServicos);
+  limparSelecao(listaCombos);
+
+  if (blocoServicos) blocoServicos.style.display = "none";
+  if (blocoCombos) blocoCombos.style.display = "none";
+}
+
+// ================= AGENDAMENTO VISUAL =================
+function renderizarBarbeirosSelecionaveis() {
+  if (!listaBarbeirosSelecionavel) return;
+
+  listaBarbeirosSelecionavel.innerHTML = "";
+
+  barbeiros.forEach((b) => {
+    const card = document.createElement("div");
+    card.className = "item-selecao";
+    card.innerHTML = `
+      <img src="${b.foto}" alt="${b.nome}" class="item-selecao-img">
+      <span>${b.nome}</span>
+      <small>${b.especialidade}</small>
+    `;
+
+    card.addEventListener("click", () => {
+      limparSelecao(listaBarbeirosSelecionavel);
+      card.classList.add("selecionado");
+
+      selectBarbeiro.value = b.nome;
+
+      if (blocoServicos) blocoServicos.style.display = "block";
+      if (blocoCombos) blocoCombos.style.display = "none";
+
+      selectServico.value = "";
+      selectCombo.value = "";
+      valor.textContent = "";
+      limparSelecao(listaServicos);
+      limparSelecao(listaCombos);
+      selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+
+      atualizarHorarios();
+    });
+
+    listaBarbeirosSelecionavel.appendChild(card);
+  });
+}
+
+function renderizarServicosSelecionaveis() {
+  if (!listaServicos) return;
+
+  listaServicos.innerHTML = "";
+
+  servicos.forEach((s) => {
+    const card = document.createElement("div");
+    card.className = "item-selecao";
+    card.innerHTML = `
+      <img src="${s.img}" alt="${s.nome}" class="item-selecao-img">
+      <span>${s.nome}</span>
+      <small>R$ ${s.preco}</small>
+    `;
+
+    card.addEventListener("click", () => {
+      limparSelecao(listaServicos);
+      limparSelecao(listaCombos);
+
+      card.classList.add("selecionado");
+      selectServico.value = s.nome;
+      selectCombo.value = "";
+
+      atualizarValorSelecionado();
+
+      if (blocoCombos) blocoCombos.style.display = "block";
+
+      atualizarHorarios();
+    });
+
+    listaServicos.appendChild(card);
+  });
+}
+
+function renderizarCombosSelecionaveis() {
+  if (!listaCombos) return;
+
+  listaCombos.innerHTML = "";
+
+  combos.forEach((c) => {
+    const card = document.createElement("div");
+    card.className = "item-selecao";
+    card.innerHTML = `
+      <img src="${c.img}" alt="${c.nome}" class="item-selecao-img">
+      <span>${c.nome}</span>
+      <small>R$ ${c.preco}</small>
+    `;
+
+    card.addEventListener("click", () => {
+      limparSelecao(listaCombos);
+      limparSelecao(listaServicos);
+
+      card.classList.add("selecionado");
+      selectCombo.value = c.nome;
+      selectServico.value = "";
+
+      atualizarValorSelecionado();
+      atualizarHorarios();
+    });
+
+    listaCombos.appendChild(card);
+  });
+}
 
 // ================= PRODUTOS =================
-listaProdutos.innerHTML = "";
+function renderizarProdutos() {
+  if (!listaProdutos) return;
 
-produtos.forEach((p) => {
-  const li = document.createElement("li");
+  listaProdutos.innerHTML = "";
 
-  li.innerHTML = `
-    <div class="produto-info">
-      <img src="${p.img}" class="produto-img" alt="${p.nome}">
-      <div>
-        <span>${p.nome}</span><br>
-        <small>Produto profissional</small>
+  produtos.forEach((p) => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <div class="produto-info">
+        <img src="${p.img}" class="produto-img" alt="${p.nome}">
+        <div>
+          <span>${p.nome}</span><br>
+          <small>Produto profissional</small>
+        </div>
       </div>
-    </div>
-    <div class="preco">R$ ${p.preco}</div>
-  `;
+      <div class="preco">R$ ${p.preco}</div>
+    `;
 
-  li.addEventListener("click", () => comprarProduto(p.nome, p.preco));
-  listaProdutos.appendChild(li);
-});
+    li.addEventListener("click", () => comprarProduto(p.nome, p.preco));
+    listaProdutos.appendChild(li);
+  });
+}
 
 function comprarProduto(nome, preco) {
   const mensagem = `🛍️ *JR Barbearia*
@@ -240,11 +375,12 @@ ${nome}
 💰 R$ ${preco}
 
 Pode separar pra mim?`;
+
   const numero = "5575981080660";
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
-
   window.location.href = url;
 }
+
 // ================= ABA SOBRE =================
 function renderizarBarbeiros() {
   if (!listaBarbeiros) return;
@@ -264,22 +400,6 @@ function renderizarBarbeiros() {
   });
 }
 
-// ================= SERVIÇO / COMBO =================
-selectServico.addEventListener("change", () => {
-  selectCombo.value = "";
-  const servico = servicos.find((s) => s.nome === selectServico.value);
-  valor.textContent = servico
-    ? `Valor: R$ ${servico.preco} • Duração: ${servico.duracao} min`
-    : "";
-});
-
-selectCombo.addEventListener("change", () => {
-  selectServico.value = "";
-  const combo = combos.find((c) => c.nome === selectCombo.value);
-  valor.textContent = combo
-    ? `Valor: R$ ${combo.preco} • Duração: ${combo.duracao} min`
-    : "";
-});
 // ================= HORÁRIOS =================
 async function atualizarHorarios() {
   const dataSelecionada = inputData.value;
@@ -298,7 +418,7 @@ async function atualizarHorarios() {
 
   try {
     const res = await fetch(
-      `${API_URL}/horarios?data=${dataSelecionada}&barbeiro=${encodeURIComponent(barbeiroSelecionado)}`,
+      `${API_URL}/horarios?data=${dataSelecionada}&barbeiro=${encodeURIComponent(barbeiroSelecionado)}`
     );
 
     if (!res.ok) {
@@ -316,18 +436,10 @@ async function atualizarHorarios() {
 
         if (!horaBanco) return false;
 
-        return horariosConflitam(
-          h,
-          duracaoSelecionada,
-          horaBanco,
-          duracaoBanco,
-        );
+        return horariosConflitam(h, duracaoSelecionada, horaBanco, duracaoBanco);
       });
 
-      if (
-        dataSelecionada === hojeFormatado &&
-        horarioJaPassou(dataSelecionada, h)
-      ) {
+      if (dataSelecionada === hojeFormatado && horarioJaPassou(dataSelecionada, h)) {
         return;
       }
 
@@ -355,8 +467,6 @@ inputData.addEventListener("change", () => {
 
   atualizarHorarios();
 });
-
-selectBarbeiro.addEventListener("change", atualizarHorarios);
 
 // ================= TELEFONE =================
 inputTelefone.addEventListener("input", (e) => {
@@ -461,8 +571,7 @@ Telefone: ${agendamento.telefone}`;
     alert("Agendamento realizado com sucesso!");
 
     formAgendamento.reset();
-    valor.textContent = "";
-    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+    resetarFluxoAgendamento();
 
     window.location.href = urlApp;
 
@@ -516,9 +625,14 @@ async function deletar(id) {
   }
 }
 
-// ================= LOADING =================
+// ================= LOAD =================
 window.addEventListener("load", () => {
+  renderizarProdutos();
   renderizarBarbeiros();
+  renderizarBarbeirosSelecionaveis();
+  renderizarServicosSelecionaveis();
+  renderizarCombosSelecionaveis();
+  resetarFluxoAgendamento();
 
   if (!loading) return;
 
