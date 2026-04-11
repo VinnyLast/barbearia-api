@@ -20,7 +20,7 @@ const servicos = [
   { nome: "Pigmentação", preco: 30, duracao: 25, img: "images/servico-pigmentacao.jpg" },
   { nome: "Hidratação", preco: 35, duracao: 30, img: "images/servico-hidratacao.jpg" },
   { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15, img: "images/servico-sobrancelha.jpg" },
-  { nome: "Freestyle", preco: 20, duracao: 20, img: "images/servico-freestyle.jpg" },
+  { nome: "Freestyle", preco: 20, duracao: 20, img: "images/freestyle.png" },
   { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15, img: "images/servico-depilacao.jpg" },
   { nome: "Limpeza facial", preco: 25, duracao: 30, img: "images/servico-limpeza.jpg" },
 ];
