@@ -389,3 +389,42 @@ button {
     border: 1px solid #222;
   }
 }
+/* Animação da Logo no Loading */
+.loading-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid var(--verde);
+  object-fit: cover;
+  /* Aqui está a animação: 1.5 segundos, infinita e suave */
+  animation: pulseLogo 1.5s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(53, 94, 59, 0.5);
+}
+
+@keyframes pulseLogo {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(53, 94, 59, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 15px rgba(53, 94, 59, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(53, 94, 59, 0);
+  }
+}
+
+/* Garante que o container do loading cubra tudo */
+#loading {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* Fica acima de tudo */
+  transition: opacity 0.5s ease;
+}
