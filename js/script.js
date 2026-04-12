@@ -271,34 +271,49 @@ function limparSelecao(container) {
 function atualizarValorSelecionado() {
   const s = servicos.find((s) => s.nome === selectServico.value);
   const c = combos.find((c) => c.nome === selectCombo.value);
+  const item = s || c; // Pega o que estiver selecionado
 
-  if (s) {
-    valor.innerHTML = `Valor: <span class="destaque-verdinho">R$ ${s.preco}</span> <br> <small class="destaque-verde">⏱ ${s.duracao} min de serviço</small>`;
-  } else if (c) {
-    valor.innerHTML = `Valor: <span class="destaque-verdinho">R$ ${c.preco}</span> <br> <small class="destaque-verde">⏱ ${c.duracao} min de serviço</small>`;
+  if (item) {
+    valor.innerHTML = `
+      <span class="destaque-verdinho">R$ ${item.preco}</span> 
+      <br> 
+      <small class="destaque-verde">
+        <i class="fa-solid fa-clock"></i> ${item.duracao} min de serviço
+      </small>
+    `;
   } else {
     valor.innerHTML = "Escolha um serviço para ver o valor";
   }
 }
 
 function resetarFluxoAgendamento() {
+  // Limpa os valores lógicos
   selectBarbeiro.value = "";
   selectServico.value = "";
   selectCombo.value = "";
-  valor.textContent = "";
+  inputNome.value = "";
+  inputTelefone.value = "";
+  valor.innerHTML = "Escolha um serviço para ver o valor";
 
-  // Limpa o grid visual de horários
+  // Limpa o grid visual de horários e o input de hora
   const grid = document.getElementById("gridHorarios");
   if (grid) grid.innerHTML = "";
-
-  // Limpa o valor do input escondido da hora
   const inputHora = document.getElementById("hora");
   if (inputHora) inputHora.value = "";
 
+  // Remove as classes de 'selecionado' de todos os cards
   limparSelecao(listaBarbeirosSelecionavel);
   limparSelecao(listaServicos);
   limparSelecao(listaCombos);
 
+  // Remove os resumos de "Selecionado: ..." e expande os blocos novamente
+  document.querySelectorAll(".bloco-minimizado").forEach((bloco) => {
+    bloco.classList.remove("bloco-minimizado");
+    const resumo = bloco.querySelector(".resumo-selecao");
+    if (resumo) resumo.remove();
+  });
+
+  // Esconde as seções de serviço/combo (reinicia o fluxo)
   if (blocoServicos) blocoServicos.style.display = "none";
   if (blocoCombos) blocoCombos.style.display = "none";
 }
@@ -315,12 +330,12 @@ function minimizarSecao(idBloco, textoResumo, aoAlterar) {
   const resumo = document.createElement("div");
   resumo.className = "resumo-selecao";
   resumo.innerHTML = `<i class="fa-solid fa-check"></i> Selecionado: <strong>${textoResumo}</strong> <span style="float:right; font-size:10px; text-decoration:underline; cursor:pointer;">Alterar</span>`;
-  
+
   resumo.onclick = () => {
     bloco.classList.remove("bloco-minimizado");
     resumo.remove();
     // Se passarmos uma função para quando alterar, ela é executada aqui
-    if (aoAlterar) aoAlterar(); 
+    if (aoAlterar) aoAlterar();
   };
 
   bloco.appendChild(resumo);
@@ -338,14 +353,14 @@ function renderizarBarbeirosSelecionaveis() {
       limparSelecao(listaBarbeirosSelecionavel);
       card.classList.add("selecionado");
       selectBarbeiro.value = b.nome;
-      
+
       // Minimiza o barbeiro
       minimizarSecao("bloco-barbeiro", b.nome);
-      
+
       // Garante que Serviços e Combos apareçam para ele escolher
       if (blocoServicos) blocoServicos.style.display = "block";
       if (blocoCombos) blocoCombos.style.display = "block";
-      
+
       selectServico.value = "";
       selectCombo.value = "";
       valor.textContent = "";
@@ -376,7 +391,7 @@ function renderizarServicosSelecionaveis() {
       // MÁGICA: Minimiza os serviços e esconde os combos
       minimizarSecao("bloco-servicos", s.nome, () => {
         // Se clicar em 'Alterar', os combos voltam a aparecer
-        if (blocoCombos) blocoCombos.style.display = "block"; 
+        if (blocoCombos) blocoCombos.style.display = "block";
       });
       if (blocoCombos) blocoCombos.style.display = "none";
     });
@@ -539,7 +554,9 @@ async function atualizarHorarios() {
         chip.classList.add("indisponivel");
       } else {
         chip.addEventListener("click", () => {
-          document.querySelectorAll(".chip-horario").forEach((c) => c.classList.remove("ativo"));
+          document
+            .querySelectorAll(".chip-horario")
+            .forEach((c) => c.classList.remove("ativo"));
           chip.classList.add("ativo");
           inputHiddenHora.value = h;
         });
@@ -547,7 +564,8 @@ async function atualizarHorarios() {
       grid.appendChild(chip);
     });
   } catch (err) {
-    grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Erro ao carregar horários.</p>";
+    grid.innerHTML =
+      "<p style='grid-column: 1/-1; text-align:center;'>Erro ao carregar horários.</p>";
   }
 }
 
@@ -556,6 +574,7 @@ inputTelefone.addEventListener("input", (e) => {
   e.target.value = formatarTelefone(e.target.value);
 });
 
+// ================= AGENDAR =================
 // ================= AGENDAR =================
 formAgendamento.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -571,16 +590,16 @@ formAgendamento.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Mude para:
   const agendamento = {
     barbeiro: selectBarbeiro.value,
     servico: selecionado,
     data: inputData.value,
-    hora: document.getElementById("hora").value, // Busca do input hidden
+    hora: document.getElementById("hora").value,
     nome: inputNome.value.trim(),
     telefone: inputTelefone.value,
     duracao: obterDuracaoSelecionada(),
   };
+
   try {
     const res = await fetch(`${API_URL}/agendar`, {
       method: "POST",
@@ -590,17 +609,18 @@ formAgendamento.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error("Erro na API");
 
-    const confirmarZap = confirm(
-      "Agendamento realizado com sucesso! Deseja abrir o WhatsApp para enviar o comprovante?",
-    );
+    alert("Agendamento realizado com sucesso!");
 
-    if (confirmarZap) {
+    const querEnviarWhats = confirm("Deseja enviar o comprovante para o WhatsApp?");
+
+    if (querEnviarWhats) {
       const msg = `Olá, agendamento na JR Barbearia:\n\nBarbeiro: ${agendamento.barbeiro}\nServiço: ${agendamento.servico}\nData: ${agendamento.data}\nHorário: ${agendamento.hora}\n\nNome: ${agendamento.nome}`;
-      window.location.href = `https://wa.me/5575981080660?text=${encodeURIComponent(msg)}`;
+      window.open(`https://wa.me/5575981080660?text=${encodeURIComponent(msg)}`, "_blank");
     }
 
     formAgendamento.reset();
     resetarFluxoAgendamento();
+
   } catch (err) {
     alert("Não foi possível concluir o agendamento.");
   }
@@ -722,4 +742,4 @@ document
   .forEach((el) => {
     el.classList.add("fade-up");
     observer.observe(el);
-  });
+});

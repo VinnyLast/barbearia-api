@@ -14,7 +14,8 @@
 
 /* BODY */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: white;
   min-height: 100vh;
   overflow-x: hidden;
@@ -31,8 +32,8 @@ body::before {
   width: 140%;
   height: 140%;
   background:
-    linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.5)),
-    url('../images/fundo.png');
+    linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5)),
+    url("../images/fundo.png");
   background-size: cover;
   background-position: center;
   z-index: -2;
@@ -41,9 +42,15 @@ body::before {
 }
 
 @keyframes fundoMove {
-  0% { transform: scale(1) translate(0, 0); }
-  50% { transform: scale(1.1) translate(-2%, -2%); }
-  100% { transform: scale(1) translate(0, 0); }
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.1) translate(-2%, -2%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
 }
 
 /* OVERLAY */
@@ -54,19 +61,19 @@ body::after {
   pointer-events: none;
   z-index: -1;
   background:
-    radial-gradient(circle at 20% 20%, rgba(53,94,59,0.10), transparent),
-    radial-gradient(circle at 80% 80%, rgba(53,94,59,0.08), transparent);
+    radial-gradient(circle at 20% 20%, rgba(53, 94, 59, 0.1), transparent),
+    radial-gradient(circle at 80% 80%, rgba(53, 94, 59, 0.08), transparent);
   animation: luzFundo 12s infinite alternate;
 }
 
 @keyframes luzFundo {
-  from { 
-    opacity: 0.5; 
-    transform: scale(1) rotate(0deg); 
+  from {
+    opacity: 0.5;
+    transform: scale(1) rotate(0deg);
   }
-  to { 
-    opacity: 0.8; 
-    transform: scale(1.2) rotate(5deg); 
+  to {
+    opacity: 0.8;
+    transform: scale(1.2) rotate(5deg);
   }
 }
 
@@ -93,7 +100,7 @@ header {
   margin-bottom: 8px;
   border: 2px solid var(--verde);
   filter: brightness(1.2) contrast(1.1);
-  box-shadow: 0 0 20px rgba(53,94,59,0.8);
+  box-shadow: 0 0 20px rgba(53, 94, 59, 0.8);
 }
 
 header h1 {
@@ -152,7 +159,7 @@ header p {
 .tabs button.active {
   background: var(--verde);
   color: white;
-  box-shadow: 0 0 10px rgba(53,94,59,0.4);
+  box-shadow: 0 0 10px rgba(53, 94, 59, 0.4);
 }
 
 /* ABAS */
@@ -166,8 +173,14 @@ header p {
 }
 
 @keyframes fade {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 /* PRODUTOS (AJUSTE DE TAMANHO E FORMA) */
 #listaProdutos {
@@ -195,10 +208,10 @@ header p {
 }
 
 .produto-img {
-  width: 50px;           /* Tamanho fixo para o produto */
-  height: 50px;          /* Tamanho fixo para o produto */
+  width: 50px; /* Tamanho fixo para o produto */
+  height: 50px; /* Tamanho fixo para o produto */
   object-fit: cover;
-  border-radius: 10px;   /* Mantém o estilo quadrado arredondado (não vira círculo) */
+  border-radius: 10px; /* Mantém o estilo quadrado arredondado (não vira círculo) */
   border: 1px solid #333;
 }
 
@@ -220,8 +233,8 @@ header p {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
 /* INPUTS */
@@ -230,7 +243,8 @@ label {
   color: #aaa;
 }
 
-select, input {
+select,
+input {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid transparent;
@@ -264,7 +278,7 @@ select, input {
   border-radius: 50%; /* Fotos Circulares */
   margin-bottom: 8px;
   border: 2px solid var(--verde);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* ABA SOBRE (CENTRALIZADA PARA IPHONE) */
@@ -307,7 +321,7 @@ select, input {
   object-fit: cover;
   border: 3px solid var(--verde);
   margin-bottom: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 /* VALOR & BOTÃO */
@@ -332,7 +346,7 @@ select, input {
   font-weight: 800;
   color: #fff;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   line-height: 1.4;
 }
 
@@ -340,6 +354,10 @@ select, input {
 .destaque-verdinho {
   color: #2ecc71; /* Um dourado/amarelo para o preço */
   font-size: 19px;
+}
+.destaque-verde i {
+  margin-right: 5px; /* Dá um espacinho entre o relógio e os minutos */
+  vertical-align: middle;
 }
 
 .destaque-verde {
@@ -365,8 +383,8 @@ button {
   border-radius: 16px;
   margin-bottom: 15px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 .localizacao h3 {
@@ -377,7 +395,7 @@ button {
 
 .localizacao a {
   display: inline-block;
-  background: rgba(53,94,59,0.15);
+  background: rgba(53, 94, 59, 0.15);
   color: var(--verde-claro);
   padding: 10px 14px;
   border-radius: 10px;
@@ -402,9 +420,15 @@ button {
 }
 
 @keyframes pulse-green {
-  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
 }
 /* RESPONSIVO MOBILE */
 @media (max-width: 600px) {
@@ -412,20 +436,18 @@ button {
     max-width: 100%;
     padding: 12px;
   }
-  
+
+  /* No seu arquivo CSS, garanta que a classe dos botões esteja assim: */
   .tabs {
-    display: grid;
-    /* Mudança aqui: 3 colunas iguais */
-    grid-template-columns: repeat(3, 1fr); 
-    background: transparent;
-    gap: 8px; /* Um pouco mais de espaço entre eles */
+    display: flex;
+    flex-wrap: wrap; /* Isso permite que o botão 'Sobre' desça se não couber */
+    gap: 10px;
+    justify-content: center;
   }
 
   .tabs button {
-    background: #111;
-    border: 1px solid #222;
-    padding: 12px 5px; /* Ajuste leve no padding */
-    font-size: 12px;   /* Fonte levemente menor para garantir que caiba */
+    flex: 1 1 45%; /* Tenta ocupar 45% da largura, forçando o 3º botão a descer */
+    min-width: 120px;
   }
 }
 /* Animação da Logo no Loading */
@@ -468,76 +490,90 @@ button {
   transition: opacity 0.5s ease;
 }
 .redes-sociais {
-    margin-top: 20px;
-    text-align: center;
-    padding: 10px;
+  margin-top: 20px;
+  text-align: center;
+  padding: 10px;
 }
 
 .redes-sociais p {
-    font-size: 13px;
-    color: #aaa;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .btn-instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 50px; /* Estilo pílula, muito usado no iOS */
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
-    transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 50px; /* Estilo pílula, muito usado no iOS */
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+  transition: transform 0.2s ease;
 }
 
 .btn-instagram img {
-    width: 20px;
-    height: 20px;
-    filter: brightness(0) invert(1); /* Deixa o ícone branco */
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1); /* Deixa o ícone branco */
 }
 
 .btn-instagram:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Ajuste para o iPhone não "cortar" o botão no final da tela */
 @media (max-width: 600px) {
-    .redes-sociais {
-        margin-bottom: 30px;
-    }
+  .redes-sociais {
+    margin-bottom: 30px;
+  }
 }
 /* Garante que o card inteiro mude de cor ao ser clicado */
 .item-selecao.selecionado {
-    border-color: var(--verde) !important;
-    background: rgba(53, 94, 59, 0.25) !important; /* Um verde mais visível */
-    transform: scale(1.02); /* Leve aumento para dar feedback visual */
-    box-shadow: 0 0 15px rgba(53, 94, 59, 0.4);
+  border-color: var(--verde) !important;
+  background: rgba(53, 94, 59, 0.25) !important; /* Um verde mais visível */
+  transform: scale(1.02); /* Leve aumento para dar feedback visual */
+  box-shadow: 0 0 15px rgba(53, 94, 59, 0.4);
 }
 
 /* Impede que o clique "pegue" na imagem e ignore o card */
 .item-selecao * {
-    pointer-events: none;
+  pointer-events: none;
 }
-.item-selecao:active, .barbeiro-card:active {
+.item-selecao:active,
+.barbeiro-card:active {
   background: rgba(255, 255, 255, 0.1) !important;
   transition: background 0.1s;
 }
 select:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    animation: pulseLoading 1.5s infinite;
+  opacity: 0.6;
+  cursor: not-allowed;
+  animation: pulseLoading 1.5s infinite;
 }
 
 @keyframes pulseLoading {
-    0% { background-color: #2a2a2a; }
-    50% { background-color: #3a3a3a; }
-    100% { background-color: #2a2a2a; }
+  0% {
+    background-color: #2a2a2a;
+  }
+  50% {
+    background-color: #3a3a3a;
+  }
+  100% {
+    background-color: #2a2a2a;
+  }
 }
 /* Classe para os itens que vão animar */
 .fade-up {
@@ -553,135 +589,135 @@ select:disabled {
 }
 /* Container da Grade de Horários */
 .grid-horarios {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas no iPhone fica perfeito */
-    gap: 10px;
-    margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colunas no iPhone fica perfeito */
+  gap: 10px;
+  margin-top: 10px;
 }
 
 /* O Chip de Horário Individual */
 .chip-horario {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    padding: 12px 5px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px 5px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 /* Horário Selecionado */
 .chip-horario.ativo {
-    background: var(--verde) !important;
-    border-color: var(--verde-claro) !important;
-    box-shadow: 0 4px 12px rgba(53, 94, 59, 0.4);
-    transform: scale(1.05);
+  background: var(--verde) !important;
+  border-color: var(--verde-claro) !important;
+  box-shadow: 0 4px 12px rgba(53, 94, 59, 0.4);
+  transform: scale(1.05);
 }
 
 /* Quando o horário está desativado (Domingo ou Ocupado) */
 .chip-horario.indisponivel {
-    opacity: 0.3;
-    background: #1a1a1a;
-    cursor: not-allowed;
-    border: none;
+  opacity: 0.3;
+  background: #1a1a1a;
+  cursor: not-allowed;
+  border: none;
 }
 
 /* Estilizando o Input de Data para combinar */
 input[type="date"] {
-    appearance: none;
-    -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    padding: 12px;
-    border-radius: 12px;
-    font-family: inherit;
-    width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  font-family: inherit;
+  width: 100%;
 }
 /* Container do Painel */
 #listaAdmin {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0;
 }
 
 /* Card de Agendamento no Admin */
 .admin-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid var(--verde); /* Barra lateral verde */
-    padding: 15px;
-    border-radius: 12px;
-    position: relative;
-    list-style: none;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid var(--verde); /* Barra lateral verde */
+  padding: 15px;
+  border-radius: 12px;
+  position: relative;
+  list-style: none;
 }
 
 .admin-info h4 {
-    margin: 0;
-    color: var(--verde-claro);
-    font-size: 18px;
+  margin: 0;
+  color: var(--verde-claro);
+  font-size: 18px;
 }
 
 .admin-detalhes {
-    font-size: 14px;
-    color: #ccc;
-    margin-top: 5px;
-    line-height: 1.5;
+  font-size: 14px;
+  color: #ccc;
+  margin-top: 5px;
+  line-height: 1.5;
 }
 
 /* Botão de Excluir mais elegante */
 .btn-deletar {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    cursor: pointer;
-    float: right;
-    margin-top: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  float: right;
+  margin-top: 10px;
 }
 
 .btn-deletar:hover {
-    background: #c0392b;
+  background: #c0392b;
 }
 /* Quando o bloco estiver minimizado */
 .bloco-minimizado {
-    opacity: 0.7;
-    transform: scale(0.98);
-    transition: all 0.3s ease;
+  opacity: 0.7;
+  transform: scale(0.98);
+  transition: all 0.3s ease;
 }
 
 .bloco-minimizado .grid-selecao {
-    display: none; /* Esconde as fotos grandes */
+  display: none; /* Esconde as fotos grandes */
 }
 
 /* Um texto de resumo que aparecerá quando o item for escolhido */
 .resumo-selecao {
-    display: block;
-    background: rgba(46, 204, 113, 0.1);
-    color: var(--verde-claro);
-    padding: 8px 12px;
-    border-radius: 8px;
-    margin-top: 5px;
-    font-size: 14px;
-    border: 1px dashed var(--verde);
+  display: block;
+  background: rgba(46, 204, 113, 0.1);
+  color: var(--verde-claro);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 5px;
+  font-size: 14px;
+  border: 1px dashed var(--verde);
 }
 .loading-horarios {
-    grid-column: 1 / -1; /* Ocupa a largura toda do grid */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-    color: #2ecc71; /* Cor verde que você está usando */
-    gap: 10px;
-    font-size: 14px;
+  grid-column: 1 / -1; /* Ocupa a largura toda do grid */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  color: #2ecc71; /* Cor verde que você está usando */
+  gap: 10px;
+  font-size: 14px;
 }
 
 .loading-horarios i {
-    font-size: 24px;
+  font-size: 24px;
 }
