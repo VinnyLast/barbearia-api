@@ -60,8 +60,14 @@ body::after {
 }
 
 @keyframes luzFundo {
-  from { opacity: 0.5; }
-  to { opacity: 1; }
+  from { 
+    opacity: 0.5; 
+    transform: scale(1) rotate(0deg); 
+  }
+  to { 
+    opacity: 0.8; 
+    transform: scale(1.2) rotate(5deg); 
+  }
 }
 
 /* CONTAINER */
@@ -305,18 +311,39 @@ select, input {
 }
 
 /* VALOR & BOTÃO */
+/* Container do Valor e Duração */
 .valor-box {
-  background: #0d0d0d;
-  padding: 12px;
-  border-radius: 12px;
+  background: rgba(53, 94, 59, 0.1); /* Fundo verde bem sutil */
+  border: 1px solid rgba(53, 94, 59, 0.4); /* Borda verde suave */
+  padding: 16px;
+  border-radius: 16px;
   text-align: center;
-  border: 1px solid #222;
+  margin: 15px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 70px; /* Um pouco mais alto para dar respiro */
 }
 
+/* O Texto dentro da box */
 #valor {
-  color: var(--verde-claro);
-  font-weight: bold;
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  line-height: 1.4;
+}
+
+/* Estilo para destacar os números (usaremos no JS abaixo) */
+.destaque-verdinho {
+  color: #2ecc71; /* Um dourado/amarelo para o preço */
+  font-size: 19px;
+}
+
+.destaque-verde {
+  color: var(--verde-claro); /* Verde para a duração */
 }
 
 button {
@@ -370,7 +397,15 @@ button {
   font-weight: bold;
   text-align: center;
 }
+.cta-whatsapp a {
+  animation: pulse-green 2s infinite;
+}
 
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
 /* RESPONSIVO MOBILE */
 @media (max-width: 600px) {
   .app {
@@ -485,6 +520,10 @@ button {
 .item-selecao * {
     pointer-events: none;
 }
+.item-selecao:active, .barbeiro-card:active {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transition: background 0.1s;
+}
 select:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -495,4 +534,16 @@ select:disabled {
     0% { background-color: #2a2a2a; }
     50% { background-color: #3a3a3a; }
     100% { background-color: #2a2a2a; }
+}
+/* Classe para os itens que vão animar */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+/* Quando a classe "visible" for adicionada via JS */
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

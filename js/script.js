@@ -160,9 +160,14 @@ function limparSelecao(container) {
 function atualizarValorSelecionado() {
   const s = servicos.find((s) => s.nome === selectServico.value);
   const c = combos.find((c) => c.nome === selectCombo.value);
-  if (s) valor.textContent = `Valor: R$ ${s.preco} • Duração: ${s.duracao} min`;
-  else if (c) valor.textContent = `Valor: R$ ${c.preco} • Duração: ${c.duracao} min`;
-  else valor.textContent = "";
+  
+  if (s) {
+    valor.innerHTML = `Valor: <span class="destaque-verdinho">R$ ${s.preco}</span> <br> <small class="destaque-verde">⏱ ${s.duracao} min de serviço</small>`;
+  } else if (c) {
+    valor.innerHTML = `Valor: <span class="destaque-verdinho">R$ ${c.preco}</span> <br> <small class="destaque-verde">⏱ ${c.duracao} min de serviço</small>`;
+  } else {
+    valor.innerHTML = "Escolha um serviço para ver o valor";
+  }
 }
 
 function resetarFluxoAgendamento() {
@@ -398,4 +403,18 @@ window.addEventListener("load", () => {
       setTimeout(() => { loading.style.display = "none"; }, 400);
     }, 800);
   }
+});
+// Faz os elementos aparecerem conforme o usuário rola a página
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+// Aplica aos cards e seções
+document.querySelectorAll('.card, .barbeiro-card, .item-selecao').forEach((el) => {
+  el.classList.add('fade-up');
+  observer.observe(el);
 });
