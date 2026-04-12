@@ -415,13 +415,17 @@ button {
   
   .tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Mudança aqui: 3 colunas iguais */
+    grid-template-columns: repeat(3, 1fr); 
     background: transparent;
+    gap: 8px; /* Um pouco mais de espaço entre eles */
   }
 
   .tabs button {
     background: #111;
     border: 1px solid #222;
+    padding: 12px 5px; /* Ajuste leve no padding */
+    font-size: 12px;   /* Fonte levemente menor para garantir que caiba */
   }
 }
 /* Animação da Logo no Loading */
