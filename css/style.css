@@ -644,3 +644,40 @@ input[type="date"] {
 .btn-deletar:hover {
     background: #c0392b;
 }
+/* Quando o bloco estiver minimizado */
+.bloco-minimizado {
+    opacity: 0.7;
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+}
+
+.bloco-minimizado .grid-selecao {
+    display: none; /* Esconde as fotos grandes */
+}
+
+/* Um texto de resumo que aparecerá quando o item for escolhido */
+.resumo-selecao {
+    display: block;
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--verde-claro);
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 14px;
+    border: 1px dashed var(--verde);
+}
+.loading-horarios {
+    grid-column: 1 / -1; /* Ocupa a largura toda do grid */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    color: #2ecc71; /* Cor verde que você está usando */
+    gap: 10px;
+    font-size: 14px;
+}
+
+.loading-horarios i {
+    font-size: 24px;
+}

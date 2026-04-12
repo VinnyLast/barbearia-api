@@ -64,59 +64,59 @@
   </div>
 
   <!-- ABA AGENDAMENTO -->
-  <!-- ABA AGENDAMENTO -->
-<div id="agendamento" class="aba ativa">
-  <form id="formAgendamento" class="card">
+  <div id="agendamento" class="aba ativa">
+    <form id="formAgendamento" class="card">
 
-    <div class="bloco-selecao">
-      <h3 class="titulo-selecao">Escolha seu barbeiro</h3>
-      <div id="listaBarbeirosSelecionavel" class="grid-selecao"></div>
-      <input type="hidden" id="barbeiro" required>
-    </div>
+      <div id="bloco-barbeiro" class="bloco-selecao">
+        <h3 class="titulo-selecao">Escolha seu barbeiro</h3>
+        <div id="listaBarbeirosSelecionavel" class="grid-selecao"></div>
+        <input type="hidden" id="barbeiro" required>
+      </div>
 
-    <div class="bloco-selecao">
-      <h3 class="titulo-selecao">Escolha seu serviço</h3>
-      <div id="listaServicos" class="grid-selecao"></div>
-      <input type="hidden" id="servico">
-    </div>
+      <div id="bloco-servicos" class="bloco-selecao" style="display:none;">
+        <h3 class="titulo-selecao">Escolha seu serviço</h3>
+        <div id="listaServicos" class="grid-selecao"></div>
+        <input type="hidden" id="servico">
+      </div>
 
-    <div class="bloco-selecao">
-      <h3 class="titulo-selecao">Ou escolha um combo</h3>
-      <div id="listaCombos" class="grid-selecao"></div>
-      <input type="hidden" id="combo">
-    </div>
+      <div id="bloco-combos" class="bloco-selecao" style="display:none;">
+        <h3 class="titulo-selecao">Ou escolha um combo</h3>
+        <div id="listaCombos" class="grid-selecao"></div>
+        <input type="hidden" id="combo">
+      </div>
 
-    <div class="valor-box">
-      <p id="valor"></p>
-    </div>
+      <div class="valor-box">
+        <p id="valor"></p>
+      </div>
 
-    <label>Data</label>
-    <input type="date" id="data" required>
-    <small>Não atendemos aos domingos</small>
+      <div id="bloco-agenda" class="bloco-selecao">
+        <label>Data</label>
+        <input type="date" id="data" required>
+        <small>Não atendemos aos domingos</small>
 
-    <div class="bloco-selecao">
-        <label>Escolha o Horário</label>
-        <div id="gridHorarios" class="grid-horarios"></div>
-        <input type="hidden" id="hora" required>
-    </div>
+        <div style="margin-top: 15px;">
+          <label>Escolha o Horário</label>
+          <div id="gridHorarios" class="grid-horarios"></div>
+          <input type="hidden" id="hora" required>
+        </div>
+      </div>
 
-    <label>Nome</label>
-    <input type="text" id="nome" placeholder="Seu nome" required />
+      <label>Nome</label>
+      <input type="text" id="nome" placeholder="Seu nome" required />
 
-    <label>Telefone</label>
-    <input
-      type="tel"
-      id="telefone"
-      placeholder="(75) 99999-9999"
-      maxlength="15"
-      required
-    />
+      <label>Telefone</label>
+      <input
+        type="tel"
+        id="telefone"
+        placeholder="(75) 99999-9999"
+        maxlength="15"
+        required
+      />
 
-    <button type="submit">Confirmar Agendamento</button>
+      <button type="submit">Confirmar Agendamento</button>
 
-  </form>
-</div>
-
+    </form>
+  </div>
   <!-- ABA PRODUTOS -->
   <div id="produtos" class="aba">
   <div class="card">

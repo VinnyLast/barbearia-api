@@ -152,29 +152,32 @@ const blocoCombos =
 inputData.min = new Date().toISOString().split("T")[0];
 
 // ================= ABAS =================
-// ================= ABAS =================
 function trocarAba(nome, el) {
-  document.querySelectorAll(".aba").forEach((aba) => aba.classList.remove("ativa"));
-  document.querySelectorAll(".tabs button").forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelectorAll(".aba")
+    .forEach((aba) => aba.classList.remove("ativa"));
+  document
+    .querySelectorAll(".tabs button")
+    .forEach((btn) => btn.classList.remove("active"));
 
   const abaAlvo = document.getElementById(nome);
   if (abaAlvo) abaAlvo.classList.add("ativa");
   if (el) el.classList.add("active");
 
   // SELEÇÃO DOS ELEMENTOS EXTRAS
-  const localizacao = document.querySelector('.localizacao');
-  const redesSociais = document.querySelector('.redes-sociais');
-  const btnWhatsapp = document.querySelector('.cta-whatsapp'); // Seleciona o botão fixo do Zap
+  const localizacao = document.querySelector(".localizacao");
+  const redesSociais = document.querySelector(".redes-sociais");
+  const btnWhatsapp = document.querySelector(".cta-whatsapp"); // Seleciona o botão fixo do Zap
 
   // LÓGICA DE VISIBILIDADE
-  if (nome === 'painel') {
-    if (localizacao) localizacao.style.display = 'none';
-    if (redesSociais) redesSociais.style.display = 'none';
-    if (btnWhatsapp) btnWhatsapp.style.display = 'none'; // Esconde no painel
+  if (nome === "painel") {
+    if (localizacao) localizacao.style.display = "none";
+    if (redesSociais) redesSociais.style.display = "none";
+    if (btnWhatsapp) btnWhatsapp.style.display = "none"; // Esconde no painel
   } else {
-    if (localizacao) localizacao.style.display = 'block';
-    if (redesSociais) redesSociais.style.display = 'block';
-    if (btnWhatsapp) btnWhatsapp.style.display = 'block'; // Mostra nas outras abas
+    if (localizacao) localizacao.style.display = "block";
+    if (redesSociais) redesSociais.style.display = "block";
+    if (btnWhatsapp) btnWhatsapp.style.display = "block"; // Mostra nas outras abas
   }
 }
 
@@ -300,6 +303,29 @@ function resetarFluxoAgendamento() {
   if (blocoCombos) blocoCombos.style.display = "none";
 }
 
+function minimizarSecao(idBloco, textoResumo, aoAlterar) {
+  const bloco = document.getElementById(idBloco);
+  if (!bloco) return;
+
+  bloco.classList.add("bloco-minimizado");
+
+  const antigo = bloco.querySelector(".resumo-selecao");
+  if (antigo) antigo.remove();
+
+  const resumo = document.createElement("div");
+  resumo.className = "resumo-selecao";
+  resumo.innerHTML = `<i class="fa-solid fa-check"></i> Selecionado: <strong>${textoResumo}</strong> <span style="float:right; font-size:10px; text-decoration:underline; cursor:pointer;">Alterar</span>`;
+  
+  resumo.onclick = () => {
+    bloco.classList.remove("bloco-minimizado");
+    resumo.remove();
+    // Se passarmos uma função para quando alterar, ela é executada aqui
+    if (aoAlterar) aoAlterar(); 
+  };
+
+  bloco.appendChild(resumo);
+}
+
 // ================= RENDERIZADORES =================
 function renderizarBarbeirosSelecionaveis() {
   if (!listaBarbeirosSelecionavel) return;
@@ -312,8 +338,14 @@ function renderizarBarbeirosSelecionaveis() {
       limparSelecao(listaBarbeirosSelecionavel);
       card.classList.add("selecionado");
       selectBarbeiro.value = b.nome;
+      
+      // Minimiza o barbeiro
+      minimizarSecao("bloco-barbeiro", b.nome);
+      
+      // Garante que Serviços e Combos apareçam para ele escolher
       if (blocoServicos) blocoServicos.style.display = "block";
-      if (blocoCombos) blocoCombos.style.display = "none";
+      if (blocoCombos) blocoCombos.style.display = "block";
+      
       selectServico.value = "";
       selectCombo.value = "";
       valor.textContent = "";
@@ -339,8 +371,14 @@ function renderizarServicosSelecionaveis() {
       selectServico.value = s.nome;
       selectCombo.value = "";
       atualizarValorSelecionado();
-      if (blocoCombos) blocoCombos.style.display = "block";
       atualizarHorarios();
+
+      // MÁGICA: Minimiza os serviços e esconde os combos
+      minimizarSecao("bloco-servicos", s.nome, () => {
+        // Se clicar em 'Alterar', os combos voltam a aparecer
+        if (blocoCombos) blocoCombos.style.display = "block"; 
+      });
+      if (blocoCombos) blocoCombos.style.display = "none";
     });
     listaServicos.appendChild(card);
   });
@@ -361,6 +399,13 @@ function renderizarCombosSelecionaveis() {
       selectServico.value = "";
       atualizarValorSelecionado();
       atualizarHorarios();
+
+      // MÁGICA: Minimiza os combos e esconde os serviços
+      minimizarSecao("bloco-combos", c.nome, () => {
+        // Se clicar em 'Alterar', os serviços voltam a aparecer
+        if (blocoServicos) blocoServicos.style.display = "block";
+      });
+      if (blocoServicos) blocoServicos.style.display = "none";
     });
     listaCombos.appendChild(card);
   });
@@ -369,13 +414,13 @@ function renderizarCombosSelecionaveis() {
 function renderizarProdutos() {
   if (!listaProdutos) return;
   listaProdutos.innerHTML = "";
-  
+
   produtos.forEach((p) => {
     const card = document.createElement("div");
     card.className = "item-selecao"; // Usa o mesmo estilo dos outros
-    
+
     // Verifica se o produto já está no carrinho para manter a classe 'selecionado' ao trocar de aba
-    if (carrinho.some(item => item.nome === p.nome)) {
+    if (carrinho.some((item) => item.nome === p.nome)) {
       card.classList.add("selecionado");
     }
 
@@ -394,7 +439,7 @@ function renderizarProdutos() {
 }
 
 function alternarNoCarrinho(produto, elemento) {
-  const index = carrinho.findIndex(item => item.nome === produto.nome);
+  const index = carrinho.findIndex((item) => item.nome === produto.nome);
 
   if (index > -1) {
     // Se já está no carrinho, remove
@@ -412,9 +457,9 @@ function alternarNoCarrinho(produto, elemento) {
 function atualizarInterfaceCarrinho() {
   const barra = document.getElementById("barraCarrinho");
   const totalTxt = document.getElementById("totalCarrinho");
-  
+
   const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-  
+
   if (carrinho.length > 0) {
     barra.style.display = "block";
     totalTxt.innerText = `R$ ${total}`;
@@ -423,21 +468,20 @@ function atualizarInterfaceCarrinho() {
   }
 }
 
-
 function finalizarPedidoCarrinho() {
   // Se o carrinho estiver vazio, não faz nada
   if (carrinho.length === 0) return;
 
   // Monta a lista de produtos um embaixo do outro
-  const itens = carrinho.map(p => `- ${p.nome} (R$ ${p.preco})`).join('\n');
-  
+  const itens = carrinho.map((p) => `- ${p.nome} (R$ ${p.preco})`).join("\n");
+
   // Calcula o total
   const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-  
+
   // Monta a mensagem e envia para o WhatsApp
   const num = "5575981080660";
   const msg = `*Novo Pedido - JR Barbearia*\n\nQuero os seguintes produtos:\n${itens}\n\n*Total: R$ ${total}*`;
-  
+
   window.location.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 function renderizarBarbeiros() {
@@ -453,12 +497,17 @@ async function atualizarHorarios() {
   const dataSel = inputData.value;
   const barbSel = selectBarbeiro.value;
   const grid = document.getElementById("gridHorarios");
-  // Garanta que o ID aqui seja "hora" para bater com o HTML
   const inputHiddenHora = document.getElementById("hora");
 
   if (!dataSel || !barbSel) return;
 
-  grid.innerHTML = "Carregando...";
+  // ANIMAÇÃO DE CARREGANDO COM ÍCONE GIRATÓRIO
+  grid.innerHTML = `
+    <div class="loading-horarios">
+      <i class="fa-solid fa-circle-notch fa-spin"></i>
+      <span>Buscando horários disponíveis...</span>
+    </div>
+  `;
 
   if (ehDomingo(dataSel)) {
     grid.innerHTML = `<div class="chip-horario indisponivel" style="grid-column: span 3; width: 100%;">Não atendemos aos domingos</div>`;
@@ -471,7 +520,7 @@ async function atualizarHorarios() {
     );
     const ocupados = await res.json();
 
-    grid.innerHTML = ""; // Limpa o carregando
+    grid.innerHTML = ""; // Limpa a animação
     const hoje = new Date().toISOString().split("T")[0];
     const duracaoSel = obterDuracaoSelecionada();
 
@@ -482,7 +531,6 @@ async function atualizarHorarios() {
 
       const jaPassou = dataSel === hoje && horarioJaPassou(dataSel, h);
 
-      // Criar o Chip (Botão)
       const chip = document.createElement("div");
       chip.classList.add("chip-horario");
       chip.innerText = h;
@@ -491,19 +539,15 @@ async function atualizarHorarios() {
         chip.classList.add("indisponivel");
       } else {
         chip.addEventListener("click", () => {
-          // Remove seleção de outros e marca o atual
-          document
-            .querySelectorAll(".chip-horario")
-            .forEach((c) => c.classList.remove("ativo"));
+          document.querySelectorAll(".chip-horario").forEach((c) => c.classList.remove("ativo"));
           chip.classList.add("ativo");
-          inputHiddenHora.value = h; // Salva o valor para o agendamento
+          inputHiddenHora.value = h;
         });
       }
-
       grid.appendChild(chip);
     });
   } catch (err) {
-    grid.innerHTML = "Erro ao carregar.";
+    grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>Erro ao carregar horários.</p>";
   }
 }
 
@@ -659,6 +703,7 @@ window.addEventListener("load", () => {
     }, 800);
   }
 });
+
 // Faz os elementos aparecerem conforme o usuário rola a página
 const observer = new IntersectionObserver(
   (entries) => {
