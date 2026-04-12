@@ -12,24 +12,24 @@ const barbeiros = [
 const servicos = [
   { nome: "Corte", preco: 25, duracao: 40, img: "images/corte.png" },
   { nome: "Barba", preco: 15, duracao: 20, img: "images/barba.png" },
-  { nome: "Pezinho", preco: 10, duracao: 10, img: "images/servico-pezinho.jpg" },
+  { nome: "Pezinho", preco: 10, duracao: 10, img: "images/pezinho.jpeg" },
   { nome: "Luzes", preco: 60, duracao: 30, img: "images/luzes.png" },
   { nome: "Platinado", preco: 80, duracao: 60, img: "images/platinado.png" },
-  { nome: "Botox", preco: 50, duracao: 40, img: "images/servico-botox.jpg" },
-  { nome: "Barboterapia", preco: 40, duracao: 30, img: "images/servico-barboterapia.jpg" },
-  { nome: "Pigmentação", preco: 30, duracao: 25, img: "images/servico-pigmentacao.jpg" },
-  { nome: "Hidratação", preco: 35, duracao: 30, img: "images/servico-hidratacao.jpg" },
-  { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15, img: "images/servico-sobrancelha.jpg" },
+  { nome: "Botox", preco: 50, duracao: 40, img: "images/botox.jpeg" },
+  { nome: "Barboterapia", preco: 40, duracao: 30, img: "images/barboterapia.jpeg" },
+  { nome: "Pigmentação", preco: 30, duracao: 25, img: "images/pigmentacao.jpeg" },
+  { nome: "Hidratação", preco: 35, duracao: 30, img: "images/hidratacao.png" },
+  { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15, img: "images/sobrancelha.jpeg" },
   { nome: "Freestyle", preco: 20, duracao: 20, img: "images/freestyle.png" },
-  { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15, img: "images/servico-depilacao.jpg" },
-  { nome: "Limpeza facial", preco: 25, duracao: 30, img: "images/servico-limpeza.jpg" },
+  { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15, img: "images/depilacao.jpeg" },
+  { nome: "Limpeza facial", preco: 25, duracao: 30, img: "images/limpeza.jpeg" },
 ];
 
 const combos = [
-  { nome: "Corte + Barba", preco: 40, duracao: 60, img: "images/combo-corte-barba.jpg" },
-  { nome: "Corte + Luzes", preco: 75, duracao: 70, img: "images/combo-corte-luzes.jpg" },
-  { nome: "Corte + Platinado", preco: 95, duracao: 90, img: "images/combo-corte-platinado.jpg" },
-  { nome: "Corte + Sobrancelha", preco: 35, duracao: 55, img: "images/combo-corte-sobrancelha.jpg" },
+  { nome: "Corte + Barba", preco: 40, duracao: 60, img: "images/corte+barba.png" },
+  { nome: "Corte + Luzes", preco: 75, duracao: 70, img: "images/corte+luzes.png" },
+  { nome: "Corte + Platinado", preco: 95, duracao: 90, img: "images/corte+platinado.png" },
+  { nome: "Corte + Sobrancelha", preco: 35, duracao: 55, img: "images/corte+sobrancelha.png" },
 ];
 
 const produtos = [
