@@ -273,28 +273,48 @@ function renderizarBarbeiros() {
 async function atualizarHorarios() {
   const dataSel = inputData.value;
   const barbSel = selectBarbeiro.value;
+  
+  // Se ainda não escolheu a data ou o barbeiro, não faz nada
   if (!dataSel || !barbSel) return;
+
+  // Se for domingo, avisamos no próprio campo de horários em vez de disparar um alert
   if (ehDomingo(dataSel)) {
-    alert("Não atendemos aos domingos.");
-    inputData.value = "";
+    selectHora.innerHTML = `<option value="">Não atendemos aos domingos</option>`;
+    selectHora.disabled = true; // Desativa o campo para não deixar selecionar nada
     return;
   }
-  selectHora.innerHTML = `<option value="">Carregando...</option>`;
+
+  // Se não for domingo, garantimos que o campo esteja ativo
+  selectHora.disabled = true; 
+  selectHora.innerHTML = `<option value="">Carregando horários...</option>`;
+
   try {
     const res = await fetch(`${API_URL}/horarios?data=${dataSel}&barbeiro=${encodeURIComponent(barbSel)}`);
     const ocupados = await res.json();
+    
     selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
     const hoje = new Date().toISOString().split("T")[0];
     const duracaoSel = obterDuracaoSelecionada();
 
     horarios.forEach((h) => {
-      const conflita = ocupados.some((o) => horariosConflitam(h, duracaoSel, o.hora.slice(0, 5), o.duracao || 30));
+      const conflita = ocupados.some((o) => 
+        horariosConflitam(h, duracaoSel, o.hora.slice(0, 5), o.duracao || 30)
+      );
+      
       if (dataSel === hoje && horarioJaPassou(dataSel, h)) return;
-      if (!conflita) selectHora.innerHTML += `<option value="${h}">${h}</option>`;
+      
+      if (!conflita) {
+        selectHora.innerHTML += `<option value="${h}">${h}</option>`;
+      }
     });
   } catch (err) {
     console.error(err);
-    selectHora.innerHTML = `<option value="">Erro ao carregar</option>`;
+    selectHora.innerHTML = `<option value="">Erro ao carregar horários</option>`;
+  } finally {
+    // Só reativa o campo se NÃO for domingo
+    if (!ehDomingo(dataSel)) {
+        selectHora.disabled = false;
+    }
   }
 }
 
