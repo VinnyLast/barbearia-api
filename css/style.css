@@ -547,3 +547,100 @@ select:disabled {
   opacity: 1;
   transform: translateY(0);
 }
+/* Container da Grade de Horários */
+.grid-horarios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas no iPhone fica perfeito */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* O Chip de Horário Individual */
+.chip-horario {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px 5px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Horário Selecionado */
+.chip-horario.ativo {
+    background: var(--verde) !important;
+    border-color: var(--verde-claro) !important;
+    box-shadow: 0 4px 12px rgba(53, 94, 59, 0.4);
+    transform: scale(1.05);
+}
+
+/* Quando o horário está desativado (Domingo ou Ocupado) */
+.chip-horario.indisponivel {
+    opacity: 0.3;
+    background: #1a1a1a;
+    cursor: not-allowed;
+    border: none;
+}
+
+/* Estilizando o Input de Data para combinar */
+input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    font-family: inherit;
+    width: 100%;
+}
+/* Container do Painel */
+#listaAdmin {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+}
+
+/* Card de Agendamento no Admin */
+.admin-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 4px solid var(--verde); /* Barra lateral verde */
+    padding: 15px;
+    border-radius: 12px;
+    position: relative;
+    list-style: none;
+}
+
+.admin-info h4 {
+    margin: 0;
+    color: var(--verde-claro);
+    font-size: 18px;
+}
+
+.admin-detalhes {
+    font-size: 14px;
+    color: #ccc;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+
+/* Botão de Excluir mais elegante */
+.btn-deletar {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+}
+
+.btn-deletar:hover {
+    background: #c0392b;
+}

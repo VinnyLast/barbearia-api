@@ -1,12 +1,33 @@
+let carrinho = [];
 // ================= DADOS =================
 const API_URL = "https://barbearia-api-23on.onrender.com";
 
 const barbeiros = [
-  { nome: "Junior Ferreira", especialidade: "Corte social e degradê", foto: "images/junior.png" },
-  { nome: "Diego Alves", especialidade: "Barba e acabamento", foto: "images/diego.png" },
-  { nome: "Samuel Santos", especialidade: "Cortes modernos", foto: "images/samuel.png" },
-  { nome: "Rian Lukas", especialidade: "Cortes modernos e freestyle", foto: "images/lukas.png" },
-  { nome: "Douglas", especialidade: "Barba e acabamento", foto: "images/douglas.png" },
+  {
+    nome: "Junior Ferreira",
+    especialidade: "Corte social e degradê",
+    foto: "images/junior.png",
+  },
+  {
+    nome: "Diego Alves",
+    especialidade: "Barba e acabamento",
+    foto: "images/diego.png",
+  },
+  {
+    nome: "Samuel Santos",
+    especialidade: "Cortes modernos",
+    foto: "images/samuel.png",
+  },
+  {
+    nome: "Rian Lukas",
+    especialidade: "Cortes modernos e freestyle",
+    foto: "images/lukas.png",
+  },
+  {
+    nome: "Douglas",
+    especialidade: "Barba e acabamento",
+    foto: "images/douglas.png",
+  },
 ];
 
 const servicos = [
@@ -16,20 +37,65 @@ const servicos = [
   { nome: "Luzes", preco: 60, duracao: 30, img: "images/luzes.png" },
   { nome: "Platinado", preco: 80, duracao: 60, img: "images/platinado.png" },
   { nome: "Botox", preco: 50, duracao: 40, img: "images/botox.jpeg" },
-  { nome: "Barboterapia", preco: 40, duracao: 30, img: "images/barboterapia.jpeg" },
-  { nome: "Pigmentação", preco: 30, duracao: 25, img: "images/pigmentacao.jpeg" },
+  {
+    nome: "Barboterapia",
+    preco: 40,
+    duracao: 30,
+    img: "images/barboterapia.jpeg",
+  },
+  {
+    nome: "Pigmentação",
+    preco: 30,
+    duracao: 25,
+    img: "images/pigmentacao.jpeg",
+  },
   { nome: "Hidratação", preco: 35, duracao: 30, img: "images/hidratacao.png" },
-  { nome: "Sobrancelha (máquina e tesoura)", preco: 15, duracao: 15, img: "images/sobrancelha.jpeg" },
+  {
+    nome: "Sobrancelha (máquina e tesoura)",
+    preco: 15,
+    duracao: 15,
+    img: "images/sobrancelha.jpeg",
+  },
   { nome: "Freestyle", preco: 20, duracao: 20, img: "images/freestyle.png" },
-  { nome: "Depilação (orelha e nariz)", preco: 15, duracao: 15, img: "images/depilacao.jpeg" },
-  { nome: "Limpeza facial", preco: 25, duracao: 30, img: "images/limpeza.jpeg" },
+  {
+    nome: "Depilação (orelha e nariz)",
+    preco: 15,
+    duracao: 15,
+    img: "images/depilacao.jpeg",
+  },
+  {
+    nome: "Limpeza facial",
+    preco: 25,
+    duracao: 30,
+    img: "images/limpeza.jpeg",
+  },
 ];
 
 const combos = [
-  { nome: "Corte + Barba", preco: 40, duracao: 60, img: "images/corte+barba.png" },
-  { nome: "Corte + Luzes", preco: 75, duracao: 70, img: "images/corte+luzes.png" },
-  { nome: "Corte + Platinado", preco: 95, duracao: 90, img: "images/corte+platinado.png" },
-  { nome: "Corte + Sobrancelha", preco: 35, duracao: 55, img: "images/corte+sobrancelha.png" },
+  {
+    nome: "Corte + Barba",
+    preco: 40,
+    duracao: 60,
+    img: "images/corte+barba.png",
+  },
+  {
+    nome: "Corte + Luzes",
+    preco: 75,
+    duracao: 70,
+    img: "images/corte+luzes.png",
+  },
+  {
+    nome: "Corte + Platinado",
+    preco: 95,
+    duracao: 90,
+    img: "images/corte+platinado.png",
+  },
+  {
+    nome: "Corte + Sobrancelha",
+    preco: 35,
+    duracao: 55,
+    img: "images/corte+sobrancelha.png",
+  },
 ];
 
 const produtos = [
@@ -38,7 +104,21 @@ const produtos = [
   { nome: "Óleo para barba", preco: 20, img: "images/oleo.gif" },
 ];
 
-const horarios = ["08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
+const horarios = [
+  "08:00",
+  "08:30",
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+];
 
 // ================= ELEMENTOS =================
 const formAgendamento = document.getElementById("formAgendamento");
@@ -53,18 +133,25 @@ const valor = document.getElementById("valor");
 const listaProdutos = document.getElementById("listaProdutos");
 const listaAdmin = document.getElementById("listaAdmin");
 const listaBarbeiros = document.getElementById("listaBarbeiros");
-const listaBarbeirosSelecionavel = document.getElementById("listaBarbeirosSelecionavel");
+const listaBarbeirosSelecionavel = document.getElementById(
+  "listaBarbeirosSelecionavel",
+);
 const listaServicos = document.getElementById("listaServicos");
 const listaCombos = document.getElementById("listaCombos");
 const loading = document.getElementById("loading");
 
 // Seleciona os blocos pais para esconder/mostrar (Certifique-se de ter os IDs no HTML)
-const blocoServicos = document.getElementById("bloco-servicos") || (listaServicos ? listaServicos.parentElement : null);
-const blocoCombos = document.getElementById("bloco-combos") || (listaCombos ? listaCombos.parentElement : null);
+const blocoServicos =
+  document.getElementById("bloco-servicos") ||
+  (listaServicos ? listaServicos.parentElement : null);
+const blocoCombos =
+  document.getElementById("bloco-combos") ||
+  (listaCombos ? listaCombos.parentElement : null);
 
 // ================= CONFIG =================
 inputData.min = new Date().toISOString().split("T")[0];
 
+// ================= ABAS =================
 // ================= ABAS =================
 function trocarAba(nome, el) {
   document.querySelectorAll(".aba").forEach((aba) => aba.classList.remove("ativa"));
@@ -73,6 +160,22 @@ function trocarAba(nome, el) {
   const abaAlvo = document.getElementById(nome);
   if (abaAlvo) abaAlvo.classList.add("ativa");
   if (el) el.classList.add("active");
+
+  // SELEÇÃO DOS ELEMENTOS EXTRAS
+  const localizacao = document.querySelector('.localizacao');
+  const redesSociais = document.querySelector('.redes-sociais');
+  const btnWhatsapp = document.querySelector('.cta-whatsapp'); // Seleciona o botão fixo do Zap
+
+  // LÓGICA DE VISIBILIDADE
+  if (nome === 'painel') {
+    if (localizacao) localizacao.style.display = 'none';
+    if (redesSociais) redesSociais.style.display = 'none';
+    if (btnWhatsapp) btnWhatsapp.style.display = 'none'; // Esconde no painel
+  } else {
+    if (localizacao) localizacao.style.display = 'block';
+    if (redesSociais) redesSociais.style.display = 'block';
+    if (btnWhatsapp) btnWhatsapp.style.display = 'block'; // Mostra nas outras abas
+  }
 }
 
 // ================= ADMIN =================
@@ -99,7 +202,9 @@ if (header) {
       acessarPainel();
       cliques = 0;
     }
-    setTimeout(() => { cliques = 0; }, 2000);
+    setTimeout(() => {
+      cliques = 0;
+    }, 2000);
   });
 }
 
@@ -146,7 +251,8 @@ function horariosConflitam(horaInicio1, duracao1, horaInicio2, duracao2 = 30) {
 function formatarTelefone(valorInput) {
   let tel = valorInput.replace(/\D/g, "").slice(0, 11);
   if (tel.length > 10) tel = tel.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
-  else if (tel.length > 6) tel = tel.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
+  else if (tel.length > 6)
+    tel = tel.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
   else if (tel.length > 2) tel = tel.replace(/(\d{2})(\d+)/, "($1) $2");
   else if (tel.length > 0) tel = tel.replace(/(\d*)/, "($1");
   return tel;
@@ -154,13 +260,15 @@ function formatarTelefone(valorInput) {
 
 function limparSelecao(container) {
   if (!container) return;
-  container.querySelectorAll(".item-selecao").forEach((el) => el.classList.remove("selecionado"));
+  container
+    .querySelectorAll(".item-selecao")
+    .forEach((el) => el.classList.remove("selecionado"));
 }
 
 function atualizarValorSelecionado() {
   const s = servicos.find((s) => s.nome === selectServico.value);
   const c = combos.find((c) => c.nome === selectCombo.value);
-  
+
   if (s) {
     valor.innerHTML = `Valor: <span class="destaque-verdinho">R$ ${s.preco}</span> <br> <small class="destaque-verde">⏱ ${s.duracao} min de serviço</small>`;
   } else if (c) {
@@ -175,10 +283,19 @@ function resetarFluxoAgendamento() {
   selectServico.value = "";
   selectCombo.value = "";
   valor.textContent = "";
-  selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+
+  // Limpa o grid visual de horários
+  const grid = document.getElementById("gridHorarios");
+  if (grid) grid.innerHTML = "";
+
+  // Limpa o valor do input escondido da hora
+  const inputHora = document.getElementById("hora");
+  if (inputHora) inputHora.value = "";
+
   limparSelecao(listaBarbeirosSelecionavel);
   limparSelecao(listaServicos);
   limparSelecao(listaCombos);
+
   if (blocoServicos) blocoServicos.style.display = "none";
   if (blocoCombos) blocoCombos.style.display = "none";
 }
@@ -252,20 +369,77 @@ function renderizarCombosSelecionaveis() {
 function renderizarProdutos() {
   if (!listaProdutos) return;
   listaProdutos.innerHTML = "";
+  
   produtos.forEach((p) => {
-    const li = document.createElement("li");
-    li.innerHTML = `<div class="produto-info"><img src="${p.img}" class="produto-img"><div><span>${p.nome}</span><br><small>Produto profissional</small></div></div><div class="preco">R$ ${p.preco}</div>`;
-    li.addEventListener("click", () => comprarProduto(p.nome, p.preco));
-    listaProdutos.appendChild(li);
+    const card = document.createElement("div");
+    card.className = "item-selecao"; // Usa o mesmo estilo dos outros
+    
+    // Verifica se o produto já está no carrinho para manter a classe 'selecionado' ao trocar de aba
+    if (carrinho.some(item => item.nome === p.nome)) {
+      card.classList.add("selecionado");
+    }
+
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.nome}" class="item-selecao-img">
+      <span>${p.nome}</span>
+      <small>R$ ${p.preco}</small>
+    `;
+
+    card.addEventListener("click", () => {
+      alternarNoCarrinho(p, card);
+    });
+
+    listaProdutos.appendChild(card);
   });
 }
 
-function comprarProduto(nome, preco) {
-  const num = "5575981080660";
-  const msg = `🛍️ *JR Barbearia*\nQuero comprar: ${nome} (R$ ${preco})`;
-  window.location.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+function alternarNoCarrinho(produto, elemento) {
+  const index = carrinho.findIndex(item => item.nome === produto.nome);
+
+  if (index > -1) {
+    // Se já está no carrinho, remove
+    carrinho.splice(index, 1);
+    elemento.classList.remove("selecionado");
+  } else {
+    // Se não está, adiciona
+    carrinho.push(produto);
+    elemento.classList.add("selecionado");
+  }
+
+  atualizarInterfaceCarrinho();
 }
 
+function atualizarInterfaceCarrinho() {
+  const barra = document.getElementById("barraCarrinho");
+  const totalTxt = document.getElementById("totalCarrinho");
+  
+  const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
+  
+  if (carrinho.length > 0) {
+    barra.style.display = "block";
+    totalTxt.innerText = `R$ ${total}`;
+  } else {
+    barra.style.display = "none";
+  }
+}
+
+
+function finalizarPedidoCarrinho() {
+  // Se o carrinho estiver vazio, não faz nada
+  if (carrinho.length === 0) return;
+
+  // Monta a lista de produtos um embaixo do outro
+  const itens = carrinho.map(p => `- ${p.nome} (R$ ${p.preco})`).join('\n');
+  
+  // Calcula o total
+  const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
+  
+  // Monta a mensagem e envia para o WhatsApp
+  const num = "5575981080660";
+  const msg = `*Novo Pedido - JR Barbearia*\n\nQuero os seguintes produtos:\n${itens}\n\n*Total: R$ ${total}*`;
+  
+  window.location.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+}
 function renderizarBarbeiros() {
   if (!listaBarbeiros) return;
   listaBarbeiros.innerHTML = "";
@@ -278,74 +452,91 @@ function renderizarBarbeiros() {
 async function atualizarHorarios() {
   const dataSel = inputData.value;
   const barbSel = selectBarbeiro.value;
-  
-  // Se ainda não escolheu a data ou o barbeiro, não faz nada
+  const grid = document.getElementById("gridHorarios");
+  // Garanta que o ID aqui seja "hora" para bater com o HTML
+  const inputHiddenHora = document.getElementById("hora");
+
   if (!dataSel || !barbSel) return;
 
-  // Se for domingo, avisamos no próprio campo de horários em vez de disparar um alert
+  grid.innerHTML = "Carregando...";
+
   if (ehDomingo(dataSel)) {
-    selectHora.innerHTML = `<option value="">Não atendemos aos domingos</option>`;
-    selectHora.disabled = true; // Desativa o campo para não deixar selecionar nada
+    grid.innerHTML = `<div class="chip-horario indisponivel" style="grid-column: span 3; width: 100%;">Não atendemos aos domingos</div>`;
     return;
   }
 
-  // Se não for domingo, garantimos que o campo esteja ativo
-  selectHora.disabled = true; 
-  selectHora.innerHTML = `<option value="">Carregando horários...</option>`;
-
   try {
-    const res = await fetch(`${API_URL}/horarios?data=${dataSel}&barbeiro=${encodeURIComponent(barbSel)}`);
+    const res = await fetch(
+      `${API_URL}/horarios?data=${dataSel}&barbeiro=${encodeURIComponent(barbSel)}`,
+    );
     const ocupados = await res.json();
-    
-    selectHora.innerHTML = `<option value="">Selecione um horário</option>`;
+
+    grid.innerHTML = ""; // Limpa o carregando
     const hoje = new Date().toISOString().split("T")[0];
     const duracaoSel = obterDuracaoSelecionada();
 
     horarios.forEach((h) => {
-      const conflita = ocupados.some((o) => 
-        horariosConflitam(h, duracaoSel, o.hora.slice(0, 5), o.duracao || 30)
+      const conflita = ocupados.some((o) =>
+        horariosConflitam(h, duracaoSel, o.hora.slice(0, 5), o.duracao || 30),
       );
-      
-      if (dataSel === hoje && horarioJaPassou(dataSel, h)) return;
-      
-      if (!conflita) {
-        selectHora.innerHTML += `<option value="${h}">${h}</option>`;
+
+      const jaPassou = dataSel === hoje && horarioJaPassou(dataSel, h);
+
+      // Criar o Chip (Botão)
+      const chip = document.createElement("div");
+      chip.classList.add("chip-horario");
+      chip.innerText = h;
+
+      if (conflita || jaPassou) {
+        chip.classList.add("indisponivel");
+      } else {
+        chip.addEventListener("click", () => {
+          // Remove seleção de outros e marca o atual
+          document
+            .querySelectorAll(".chip-horario")
+            .forEach((c) => c.classList.remove("ativo"));
+          chip.classList.add("ativo");
+          inputHiddenHora.value = h; // Salva o valor para o agendamento
+        });
       }
+
+      grid.appendChild(chip);
     });
   } catch (err) {
-    console.error(err);
-    selectHora.innerHTML = `<option value="">Erro ao carregar horários</option>`;
-  } finally {
-    // Só reativa o campo se NÃO for domingo
-    if (!ehDomingo(dataSel)) {
-        selectHora.disabled = false;
-    }
+    grid.innerHTML = "Erro ao carregar.";
   }
 }
 
 inputData.addEventListener("change", atualizarHorarios);
-inputTelefone.addEventListener("input", (e) => { e.target.value = formatarTelefone(e.target.value); });
+inputTelefone.addEventListener("input", (e) => {
+  e.target.value = formatarTelefone(e.target.value);
+});
 
 // ================= AGENDAR =================
 formAgendamento.addEventListener("submit", async (e) => {
   e.preventDefault();
   const selecionado = selectServico.value || selectCombo.value;
-  
-  if (!selectBarbeiro.value || !selecionado || !inputData.value || !selectHora.value) {
+
+  if (
+    !selectBarbeiro.value ||
+    !selecionado ||
+    !inputData.value ||
+    !document.getElementById("hora").value
+  ) {
     alert("Preencha todos os campos!");
     return;
   }
 
+  // Mude para:
   const agendamento = {
     barbeiro: selectBarbeiro.value,
     servico: selecionado,
     data: inputData.value,
-    hora: selectHora.value,
+    hora: document.getElementById("hora").value, // Busca do input hidden
     nome: inputNome.value.trim(),
     telefone: inputTelefone.value,
     duracao: obterDuracaoSelecionada(),
   };
-
   try {
     const res = await fetch(`${API_URL}/agendar`, {
       method: "POST",
@@ -355,8 +546,10 @@ formAgendamento.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error("Erro na API");
 
-    const confirmarZap = confirm("Agendamento realizado com sucesso! Deseja abrir o WhatsApp para enviar o comprovante?");
-    
+    const confirmarZap = confirm(
+      "Agendamento realizado com sucesso! Deseja abrir o WhatsApp para enviar o comprovante?",
+    );
+
     if (confirmarZap) {
       const msg = `Olá, agendamento na JR Barbearia:\n\nBarbeiro: ${agendamento.barbeiro}\nServiço: ${agendamento.servico}\nData: ${agendamento.data}\nHorário: ${agendamento.hora}\n\nNome: ${agendamento.nome}`;
       window.location.href = `https://wa.me/5575981080660?text=${encodeURIComponent(msg)}`;
@@ -374,17 +567,77 @@ async function carregarAgendamentos() {
   try {
     const res = await fetch(`${API_URL}/agendamentos`);
     const dados = await res.json();
-    listaAdmin.innerHTML = "";
-    dados.forEach((a) => {
-      listaAdmin.innerHTML += `<li><strong>${a.nome}</strong> - ${a.servico}<br>${a.data} às ${a.hora.slice(0, 5)}<br>Barbeiro: ${a.barbeiro} <button onclick="deletar(${a.id})">Excluir</button></li>`;
-    });
-  } catch (err) { console.error(err); }
-}
 
-async function deletar(id) {
-  if (confirm("Deseja excluir este agendamento?")) {
-    await fetch(`${API_URL}/agendamentos/${id}`, { method: "DELETE" });
-    carregarAgendamentos();
+    // 1. Pega a data de hoje no formato YYYY-MM-DD
+    const hoje = new Date().toISOString().split("T")[0];
+
+    // 2. Filtra apenas os agendamentos de hoje
+    const agendamentosDeHoje = dados.filter((a) => a.data === hoje);
+
+    // 3. Calcula o valor total somando o preço de cada serviço/combo de hoje
+    const faturamentoHoje = agendamentosDeHoje.reduce((total, a) => {
+      // Procura o preço no array de serviços ou de combos
+      const item =
+        servicos.find((s) => s.nome === a.servico) ||
+        combos.find((c) => c.nome === a.servico);
+      return total + (item ? item.preco : 0);
+    }, 0);
+
+    // 4. Atualiza o texto no topo do painel
+    const elementoResumo = document.getElementById("resumoPainel");
+    if (elementoResumo) {
+      elementoResumo.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>📅 Hoje: <strong>${agendamentosDeHoje.length}</strong> cortes</span>
+          <span>💰 Total: <strong style="color: #2ecc71;">R$ ${faturamentoHoje}</strong></span>
+        </div>
+      `;
+    }
+
+    // 5. Renderiza a lista de cards (o código que já tínhamos)
+    listaAdmin.innerHTML = "";
+    if (dados.length === 0) {
+      listaAdmin.innerHTML =
+        "<p style='text-align:center; opacity:0.5;'>Nenhum agendamento encontrado.</p>";
+      return;
+    }
+
+    // Ordenar para mostrar os mais próximos primeiro
+    dados.sort(
+      (a, b) => a.data.localeCompare(b.data) || a.hora.localeCompare(b.hora),
+    );
+
+    dados.forEach((a) => {
+      // Pega apenas os primeiros 10 caracteres (YYYY-MM-DD) antes de formatar
+      const dataApenas = a.data.split("T")[0];
+      const dataFormatada = dataApenas
+        .split("-")
+        .reverse()
+        .slice(0, 2)
+        .join("/");
+      const li = document.createElement("li");
+      li.className = "admin-card visible";
+
+      li.innerHTML = `
+        <div class="admin-info">
+          <h4>${a.nome}</h4>
+          <div class="admin-detalhes">
+            <strong>✂️ Serviço:</strong> ${a.servico}<br>
+            <strong>📅 Data:</strong> ${dataFormatada} às ${a.hora.slice(0, 5)}h<br>
+            <strong>💈 Barbeiro:</strong> ${a.barbeiro}<br>
+            <strong>📞 Tel:</strong> ${a.telefone}
+          </div>
+          <button class="btn-deletar" onclick="deletar(${a.id})">
+            <i class="fa-solid fa-trash"></i> Excluir
+          </button>
+        </div>
+        <div style="clear: both;"></div>
+      `;
+      listaAdmin.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar painel:", err);
+    listaAdmin.innerHTML = "<p>Erro ao carregar dados.</p>";
   }
 }
 
@@ -400,21 +653,28 @@ window.addEventListener("load", () => {
   if (loading) {
     setTimeout(() => {
       loading.style.opacity = "0";
-      setTimeout(() => { loading.style.display = "none"; }, 400);
+      setTimeout(() => {
+        loading.style.display = "none";
+      }, 400);
     }, 800);
   }
 });
 // Faz os elementos aparecerem conforme o usuário rola a página
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1 });
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  },
+  { threshold: 0.1 },
+);
 
 // Aplica aos cards e seções
-document.querySelectorAll('.card, .barbeiro-card, .item-selecao').forEach((el) => {
-  el.classList.add('fade-up');
-  observer.observe(el);
-});
+document
+  .querySelectorAll(".card, .barbeiro-card, .item-selecao")
+  .forEach((el) => {
+    el.classList.add("fade-up");
+    observer.observe(el);
+  });

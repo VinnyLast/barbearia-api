@@ -94,10 +94,11 @@
     <input type="date" id="data" required>
     <small>Não atendemos aos domingos</small>
 
-    <label>Horário</label>
-    <select id="hora" required>
-      <option value="" disabled selected>Selecione um horário</option>
-    </select>
+    <div class="bloco-selecao">
+        <label>Escolha o Horário</label>
+        <div id="gridHorarios" class="grid-horarios"></div>
+        <input type="hidden" id="hora" required>
+    </div>
 
     <label>Nome</label>
     <input type="text" id="nome" placeholder="Seu nome" required />
@@ -118,12 +119,23 @@
 
   <!-- ABA PRODUTOS -->
   <div id="produtos" class="aba">
-    <div class="card">
-      <h2>Produtos</h2>
-      <ul id="listaProdutos"></ul>
+  <div class="card">
+    <h2>Produtos Profissionais</h2>
+    <p style="margin-bottom: 15px; font-size: 14px; opacity: 0.8;">Selecione os itens que deseja e peça pelo WhatsApp no final.</p>
+    
+    <div id="listaProdutos" class="grid-selecao"></div>
+
+    <div id="barraCarrinho" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <span>Total selecionado:</span>
+        <strong id="totalCarrinho" style="color: #2ecc71; font-size: 18px;">R$ 0</strong>
+      </div>
+      <button onclick="finalizarPedidoCarrinho()" style="background: #25d366; width: 100%;">
+        <i class="fa-brands fa-whatsapp"></i> Pedir Produtos
+      </button>
     </div>
   </div>
-
+</div>
   <!-- ABA SOBRE -->
   <div id="sobre" class="aba">
     <div class="card">
@@ -147,13 +159,13 @@
 
   <!-- ABA PAINEL -->
   <div id="painel" class="aba">
-    <div class="card">
-      <h2>Agendamentos</h2>
-      <ul id="listaAdmin"></ul>
-    </div>
+  <div class="card">
+    <h2>Agendamentos</h2>
+    <div id="resumoPainel" style="margin-bottom: 20px; font-size: 14px; color: #2ecc71; font-weight: bold;"></div>
+    
+    <ul id="listaAdmin"></ul>
   </div>
-
-</div>
+  </div>
 
 <!-- BOTÃO WHATSAPP -->
 <div class="cta-whatsapp">
