@@ -424,6 +424,12 @@ button {
 }
 
 /* WHATSAPP */
+.cta-whatsapp {
+  margin-top: 30px !important; /* Cria o espaço entre o card e o botão */
+  margin-bottom: 20px; /* Espaço extra no final da página */
+  padding: 10px;
+  text-align: center;
+}
 .cta-whatsapp a {
   display: block;
   background: #25d366;
@@ -787,4 +793,90 @@ input[type="date"] {
 
 .loading-horarios i {
   font-size: 24px;
+}
+/* Estilos para a seção Sobre */
+/* ESTILO GOOGLE MAPS DARK */
+/* AJUSTE FINAL DOS CARDS ESTILO GOOGLE */
+.card-google {
+  /* Use a cor exata do seu card original para não dar diferença */
+  background: #121212 !important; 
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  padding: 20px !important;
+  margin-top: 15px;
+  border-radius: 12px;
+  box-sizing: border-box; /* Garante que o padding não quebre a largura */
+}
+
+.titulo-google {
+  font-size: 18px !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.aviso-google {
+  font-size: 13px;
+  color: #a0a0a0;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 20px;
+  display: block; /* Garante que ocupe a linha toda */
+}
+
+/* LISTA DE HORÁRIOS - FORÇANDO O ESPAÇAMENTO */
+.lista-horarios-google {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+}
+
+.lista-horarios-google li {
+  display: flex !important; /* Força o comportamento de linha */
+  justify-content: space-between !important; /* Joga o dia pra esquerda e hora pra direita */
+  align-items: center !important;
+  width: 100% !important;
+  padding: 14px 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.lista-horarios-google .dia {
+  color: #81c995 !important; /* Verde do Google Maps */
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.lista-horarios-google .hora {
+  color: #e8eaed !important;
+  font-size: 14px;
+  text-align: right;
+}
+
+.comodidades-google {
+  color: #e8eaed;
+  font-size: 14px;
+  line-height: 1.8;
+  text-align: center;
+}
+.comodidades-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  color: #e8eaed;
+  font-size: 14px;
+}
+
+.comodidades-grid span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.comodidades-grid i {
+  color: #81c995; /* O verde do Google que estamos usando */
 }
