@@ -398,6 +398,7 @@ async function atualizarHorarios() {
   }
 }
 // ================= AGENDAR =================
+// ================= AGENDAR (VERSÃO CORRIGIDA) =================
 formAgendamento.addEventListener("submit", async (e) => {
   e.preventDefault();
   const selecionado = selectServico.value || selectCombo.value;
@@ -426,21 +427,20 @@ formAgendamento.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error();
     
-    alert("Agendamento realizado com sucesso!");
-
-    if (confirm("Deseja enviar o comprovante pelo WhatsApp?")) {
+    // REMOVEMOS O ALERT("Sucesso") DAQUI
+    
+    if (confirm("Agendamento realizado! Deseja enviar o comprovante pelo WhatsApp?")) {
       const msg = `Agendamento JR Barbearia: ${agendamento.servico} com ${agendamento.barbeiro} dia ${agendamento.data} às ${agendamento.hora}`;
-      window.open(`https://api.whatsapp.com/send?phone=5575981080660&text=${encodeURIComponent(msg)}`, '_blank');
+      
+      // SOLUÇÃO PARA CELULAR: Usamos location.href em vez de window.open
+      // Isso funciona melhor em navegadores mobile porque não é visto como pop-up bloqueável
+      const urlWhats = `https://api.whatsapp.com/send?phone=5575981080660&text=${encodeURIComponent(msg)}`;
+      window.location.href = urlWhats; 
+    } else {
+      // Se ele não quiser enviar Whats, apenas recarregamos para limpar o cache
+      const novaVersao = window.location.pathname + "?v=" + Date.now();
+      window.location.replace(novaVersao);
     }
-
-    // Limpa o formulário e o fluxo visual
-    formAgendamento.reset(); 
-    resetarFluxoAgendamento();
-
-    // FORÇA O RECARREGAMENTO LIMPO (Evita versão antiga)
-    // O "?v=" gera um número único baseado na hora atual, obrigando o navegador a atualizar
-    const novaVersao = window.location.pathname + "?v=" + Date.now();
-    window.location.replace(novaVersao);
 
   } catch (err) { 
     alert("Erro ao agendar. Verifique sua conexão."); 
