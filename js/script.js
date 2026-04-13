@@ -427,17 +427,21 @@ formAgendamento.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error();
     
-    // REMOVEMOS O ALERT("Sucesso") DAQUI
-    
+    // Formata a data de AAAA-MM-DD para DD/MM/AAAA
+    const dataFormatada = agendamento.data.split('-').reverse().join('/');
+
     if (confirm("Agendamento realizado! Deseja enviar o comprovante pelo WhatsApp?")) {
-      const msg = `Agendamento JR Barbearia: ${agendamento.servico} com ${agendamento.barbeiro} dia ${agendamento.data} às ${agendamento.hora}`;
+      // Montando a mensagem exatamente como você pediu
+      const msg = `Olá, agendamento na JR Barbearia:\n\n` +
+                  `Barbeiro: ${agendamento.barbeiro}\n` +
+                  `Serviço: ${agendamento.servico}\n` +
+                  `Data: ${dataFormatada}\n` +
+                  `Horário: ${agendamento.hora}\n\n` +
+                  `Nome: ${agendamento.nome}`;
       
-      // SOLUÇÃO PARA CELULAR: Usamos location.href em vez de window.open
-      // Isso funciona melhor em navegadores mobile porque não é visto como pop-up bloqueável
       const urlWhats = `https://api.whatsapp.com/send?phone=5575981080660&text=${encodeURIComponent(msg)}`;
       window.location.href = urlWhats; 
     } else {
-      // Se ele não quiser enviar Whats, apenas recarregamos para limpar o cache
       const novaVersao = window.location.pathname + "?v=" + Date.now();
       window.location.replace(novaVersao);
     }
