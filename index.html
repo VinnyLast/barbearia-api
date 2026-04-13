@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>JR Barbearia</title>
 
   <link rel="stylesheet" href="css/style.css" />
@@ -40,7 +43,6 @@
     <button onclick="acessarPainel()" id="btnPainel" style="display: none">
      <i class="fa-solid fa-lock"></i> Painel
     </button>
-  </nav>
 
   <!-- LOCALIZAÇÃO -->
   <div class="localizacao">
@@ -79,12 +81,15 @@
       </div>
 
       <div class="valor-box">
-        <p id="valor"></p>
+        <div id="valor" class="valor-placeholder">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <p>Selecione um barbeiro e o serviço para ver detalhes</p>
+        </div>
       </div>
 
       <div id="bloco-agenda" class="bloco-selecao">
-        <label>Data</label>
-        <input type="date" id="data" required>
+        <label for="data" class="label-data">Clique abaixo para escolher o dia:</label>
+<input type="date" id="data" name="data" required>
         <small>Não atendemos aos domingos</small>
 
         <div style="margin-top: 15px;">
