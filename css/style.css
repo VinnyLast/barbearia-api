@@ -514,52 +514,30 @@ button {
   z-index: 10000; /* Fica acima de tudo */
   transition: opacity 0.5s ease;
 }
-.redes-sociais {
-  margin-top: 20px;
-  text-align: center;
-  padding: 10px;
-}
-
-.redes-sociais p {
-  font-size: 13px;
-  color: #aaa;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
 
 .btn-instagram {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  background: linear-gradient(
-    45deg,
-    #f09433 0%,
-    #e6683c 25%,
-    #dc2743 50%,
-    #cc2366 75%,
-    #bc1888 100%
-  );
-  color: white;
+  justify-content: center;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white !important;
+  padding: 12px;
+  border-radius: 8px;
   text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 50px; /* Estilo pílula, muito usado no iOS */
   font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
-  transition: transform 0.2s ease;
-}
-
-.btn-instagram img {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1); /* Deixa o ícone branco */
+  transition: transform 0.2s;
 }
 
 .btn-instagram:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
+  filter: brightness(1.1);
 }
 
+/* Ajuste no ícone dentro do título */
+.titulo-google i {
+  margin-right: 8px;
+  color: #e6683c; /* Cor de destaque para o ícone */
+}
 /* Ajuste para o iPhone não "cortar" o botão no final da tela */
 @media (max-width: 600px) {
   .redes-sociais {

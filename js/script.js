@@ -315,7 +315,7 @@ function finalizarPedidoCarrinho() {
   if (carrinho.length === 0) return;
   const itens = carrinho.map((p) => `- ${p.nome} (R$ ${p.preco})`).join("\n");
   const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-  const msg = `*Novo Pedido - JR Barbearia*\n\nQuero os seguintes produtos:\n${itens}\n\n*Total: R$ ${total}*`;
+  const msg = `*Novo Pedido - JR Barbearia*\n\nGostaria que separasse para mim os seguintes produtos:\n${itens}\n\n*Total: R$ ${total}*`;
   window.open(`https://api.whatsapp.com/send?phone=5575981080660&text=${encodeURIComponent(msg)}`, '_blank');
 }
 
